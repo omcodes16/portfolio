@@ -21,7 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
-    <!-- Scrollytelling Preloader (The 6-Stage Boot Sequence) -->
+                            <!-- Scrollytelling Preloader (The 6-Stage Boot Sequence) -->
     <div id="scrolly-preloader">
         <div class="preloader-overlay"></div>
         <div class="preloader-content active" id="stage-0">
@@ -47,11 +47,13 @@
             <h2 class="font-mono highlight-lime" style="font-size: 2rem;">>_ Access Granted. System.Initialize()</h2>
         </div>
     </div>
+
+    <!-- Persistent Global 3D Environment -->
+    <div id="canvas-container"></div>
+
     <!-- Custom Magnetic Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
-
-    <!-- Background 3D Canvas Container -->
     <div id="canvas-container"></div>
     
     <!-- Trace Line Animation (PCB Trace) -->
@@ -67,6 +69,7 @@
                 <li><a href="#showcase" class="magnetic" data-strength="15">Forge</a></li>
                 <li><a href="#clubs" class="magnetic" data-strength="15">Network</a></li>
                 <li><a href="#skills" class="magnetic" data-strength="15">Lab</a></li>
+                <li><a href="#gallery" class="magnetic" data-strength="15">Archive</a></li>
                 <li><a href="#contact" class="magnetic" data-strength="15">Hub</a></li>
             </ul>
         </div>
@@ -81,15 +84,29 @@
         
 
         
-        <!-- Hero Section -->
+                                                <!-- Hero Section -->
         <section id="home" class="hero section-drift">
             <div class="hero-content">
-                <h2 class="subtitle gsap-hero-sub" style="color: var(--accent-indigo); letter-spacing: 3px;">FIRST-YEAR ECE UNDERGRADUATE | Bridging the gap between Hardware Precision and Software Innovation.</h2>
-                <h1 class="title"><span class="serif-name gsap-hero-name">OM GIRI</span> <br><span class="sans-name highlight-cyan gsap-hero-name" style="text-shadow: 0 0 15px rgba(0,242,255,0.4);">GOSWAMI</span></h1>
-                <p class="description gsap-hero-sub">Architecting ecosystems, embedded logic, and intelligent solutions.</p>
-                <div class="cta-group">
-                    <button class="btn-primary magnetic gsap-hero-btn" data-strength="40" onclick="document.getElementById('showcase').scrollIntoView({behavior: 'smooth'})">Explore The Vault</button>
-                    <button class="btn-secondary magnetic gsap-hero-btn" data-strength="30" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
+                <h2 class="subtitle gsap-hero-sub" style="color: var(--accent-lime); font-size: 0.85rem; letter-spacing: 0.15em; font-weight: 700; text-transform: uppercase;">B.TECH ECE @ JABALPUR ENGINEERING COLLEGE | CODE KUMBH 2.0 WINNER | ROBOTICS & WEB PROTOTYPING</h2>
+                
+                <h1 class="title" style="font-family: 'Inter', sans-serif; font-weight: 900; letter-spacing: -1px; margin: 15px 0;">
+                    <span class="gsap-hero-name" style="color: #ffffff;">OM GIRI</span> 
+                    <br>
+                    <span class="gsap-hero-name" style="color: var(--accent-cyan); text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3);">GOSWAMI</span>
+                </h1>
+                
+                <!-- Glowing Separator -->
+                <div style="height: 1px; width: 100%; max-width: 400px; margin: 20px auto; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent); opacity: 0.5; box-shadow: 0 0 10px rgba(0, 242, 255, 0.8);"></div>
+                
+                <p class="description gsap-hero-sub" style="color: rgba(255, 255, 255, 0.7); max-width: 600px; margin: 0 auto; line-height: 1.6;">Bridging the gap between embedded hardware precision and digital ecosystem innovation.</p>
+                
+                <!-- Premium Neo-Glassmorphism Buttons -->
+                <div class="cta-group" style="display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 40px;">
+                    <!-- Primary focal action -->
+                    <button class="btn-primary magnetic gsap-hero-btn" data-strength="40" onclick="document.getElementById('showcase').scrollIntoView({behavior: 'smooth'})" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(16px); border: 1px solid var(--accent-cyan); box-shadow: 0 10px 20px rgba(0, 255, 255, 0.1); padding: 14px 32px; font-weight: 700; transition: all 0.3s ease;">EXPLORE THE VAULT</button>
+                    <!-- Secondary frosted pills -->
+                    <button class="btn-secondary magnetic gsap-hero-btn" data-strength="30" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})" style="background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 28px; font-weight: 600; color: #fff;">CONTACT ME</button>
+                    <a href="om_resume.pdf" target="_blank" class="btn-secondary magnetic gsap-hero-btn" data-strength="30" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 28px; font-weight: 600; color: #fff;">📄 View CV</a>
                 </div>
             </div>
         </section>
@@ -102,24 +119,22 @@
                 <!-- Glowing Data Feed Line -->
                 <div class="data-feed-line"></div>
                 <!-- Card 1: JEC-RESOLVE (Top Left) -->
-                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 25px rgba(0, 242, 255, 0.15); overflow: hidden; position: relative; padding: 40px;" data-project="resolve">
-                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                <div class="bento-card hover-lift tilt-effect neo-morphic-card" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; position: relative; padding: 40px;" data-project="resolve">
                     <div style="position: absolute; top: -50px; left: -50px; width: 140%; height: 140%; opacity: 0.15; z-index: 0; background-image: url('https://www.svgrepo.com/show/408453/network-chart-diagram-graph-node-analysis.svg'); background-size: cover; background-position: center;"></div>
                     <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
                         <div class="tag" style="position: static; display: inline-block; color: #000; background: var(--accent-green); border: none; font-weight: 800; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 8px; box-shadow: 0 0 10px rgba(57, 255, 20, 0.4); text-transform: uppercase; margin: 0;">JEC-RESOLVE</div>
                         <h3 style="position: static; font-size: 2.2rem; margin: 0; font-weight: 800; letter-spacing: 1px;">Smart Grievance Ecosystem</h3>
                         <p style="position: static; color: #e2e8f0; font-size: 0.95rem; line-height: 1.5; margin: 0;">Architected a comprehensive digital grievance ecosystem utilizing advanced technical architecture.</p>
-                        <ul style="position: static; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.6; font-weight: 500;">
-                            <li style="color: #ccff00; text-shadow: 0 0 8px rgba(204, 255, 0, 0.4);">🏆 WINNER: Code Kumbh 2.0 (Best in Open Innovation).</li>
-                            <li style="color: #8a2be2; text-shadow: 0 0 8px rgba(138, 43, 226, 0.6);">🚀 DIRECT QUALIFIER: TechKriti '24 Hackathon (IIT Kanpur).</li>
+                                                                                                <ul style="position: static; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.8; font-weight: 600;">
+                            <li class="chamakta-lime" style="padding: 4px 0;">🏆 WINNER: Code Kumbh 2.0 (Best in Open Innovation).</li>
+                            <li class="chamakta-indigo" style="padding: 4px 0;">🚀 DIRECT QUALIFIER: TechKriti '26 Hackathon (IIT Kanpur).</li>
                         </ul>
                         <button class="btn-primary deep-dive-btn magnetic" data-strength="10" style="margin-top: auto; border-radius: 50px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem;">DEEP DIVE</button>
                     </div>
                 </div>
 
                 <!-- Card 2: Smart Security Lock (Top Right) -->
-                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); overflow: hidden; position: relative; padding: 40px;" data-project="doorlock">
-                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                <div class="bento-card hover-lift tilt-effect neo-morphic-card" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); overflow: hidden; position: relative; padding: 40px;" data-project="doorlock">
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; opacity: 0.05; z-index: 0; background-image: url('https://www.svgrepo.com/show/532392/lock-keyhole.svg'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
                     <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
                         <div class="tag" style="position: static; display: inline-block; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); background: rgba(0, 242, 255, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0;">Smart Security Lock</div>
@@ -129,8 +144,7 @@
                 </div>
 
                 <!-- Card 3: Non-Contact Hygiene Card (Bottom Left) -->
-                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); overflow: hidden; position: relative; padding: 40px;" data-project="hygiene">
-                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                <div class="bento-card hover-lift tilt-effect neo-morphic-card" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); overflow: hidden; position: relative; padding: 40px;" data-project="hygiene">
                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; opacity: 0.05; z-index: 0; background-image: url('https://www.svgrepo.com/show/532353/sensor-ultrasonic.svg'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
                     <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
                         <div class="tag" style="position: static; display: inline-block; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); background: rgba(0, 242, 255, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0;">Touchless Safety System</div>
@@ -139,32 +153,24 @@
                     </div>
                 </div>
 
-                <!-- Card 4: ROBO RACE (Bottom Right) -->
-                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 25px rgba(0, 242, 255, 0.15); overflow: hidden; position: relative; padding: 40px;" data-project="roborace">
-                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                                                                                                                                                                                                <!-- Card 4: ROBO RACE (Bottom Right) -->
+                <div class="bento-card hover-lift tilt-effect neo-morphic-card" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; overflow: hidden; position: relative; padding: 40px;" data-project="roborace">
                     <div style="position: absolute; top: -50px; left: -50px; width: 140%; height: 140%; opacity: 0.05; z-index: 0; background-image: url('https://www.svgrepo.com/show/367676/robot.svg'); background-size: cover; background-position: center; filter: invert(1);"></div>
-                    <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
-                        <div class="tag" style="position: static; display: inline-block; color: #000; background: var(--accent-green); border: none; font-weight: 800; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 8px; box-shadow: 0 0 10px rgba(57, 255, 20, 0.4); text-transform: uppercase; margin: 0;">ROBO RACE</div>
-                        <h3 style="position: static; font-family: 'Inter', sans-serif; font-size: 2.2rem; margin: 0; font-weight: 800; letter-spacing: 1px; color: #fff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);">Kinetic Showdown</h3>
-                        <p style="position: static; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; font-style: italic; margin: 0; margin-bottom: 5px;">Engineering Agility & High-Speed Performance Validation</p>
-                        <p style="position: static; color: var(--accent-green); font-size: 0.9rem; font-weight: 700; margin: 0;">Event: INERTIA 2.0</p>
-                        <p style="position: static; color: #fff; font-size: 0.9rem; font-weight: 700; margin: 0; margin-bottom: 15px;">Team <span style="color: var(--accent-cyan);">THE ROBO RANGERS</span></p>
-                        
-                        <ul style="position: static; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.6; font-weight: 500; color: #e2e8f0;">
-                            <li>⚙️ Arduino Microcontroller (Logic Controller)</li>
-                            <li>⚙️ High-Torque DC Motors & Motor Driver (Propulsion)</li>
-                            <li>⚙️ HC-05 Bluetooth Module (Wireless Communication)</li>
-                            <li>💻 Optimized C++ Firmware (Steering & Speed)</li>
-                        </ul>
-                        <button class="btn-primary deep-dive-btn magnetic" data-strength="10" style="margin-top: auto; border-radius: 50px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem;">DEEP DIVE</button>
+                    <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 1.5rem; height: 100%; overflow-y: visible;">
+                        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 1.2rem;">
+                            <div class="tag" style="position: static; display: inline-block; color: #000; background: var(--accent-green); border: none; font-weight: 800; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 8px; box-shadow: 0 0 10px rgba(57, 255, 20, 0.4); text-transform: uppercase; margin: 0;">ROBO RACE</div>
+                            <h3 style="position: static; font-family: 'Inter', sans-serif; font-size: 2rem; margin: 0; font-weight: 800; letter-spacing: 1px; color: #fff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); text-align: left; line-height: 1.1;">Kinetic Showdown</h3>
+                            <p style="position: static; color: var(--accent-green); font-size: 0.85rem; font-weight: 700; margin: 0; line-height: 1.5; text-align: left;">Team <span style="color: var(--accent-cyan);">THE ROBO RANGERS</span><br>Hosted by COSMOS at INERTIA 2.0</p>
+                        </div>
+                        <button class="btn-primary deep-dive-btn magnetic" data-strength="10" style="margin-top: auto; align-self: flex-start; border-radius: 50px; border: 2px solid var(--accent-lime); box-shadow: 0 0 15px rgba(204, 255, 0, 0.3); background: rgba(204, 255, 0, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem; z-index: 10;">DEEP DIVE</button>
                     </div>
                 </div>
-
             </div>
+        </div>
         </section>
 
         <!-- JEC NETWORK (Experience & Clubs) -->
-        <section id="clubs" class="clubs section-drift" style="position: relative;">
+        <section id="clubs" class="clubs section-drift" style="margin-top: 100px; padding-top: 50px;" style="position: relative;">
             <h2 class="section-title" style="text-align: left; width: 100%;">Professional Dynamics <span class="highlight-indigo" style="font-size: 1.2em;">& Leadership</span></h2>
             
             <div class="network-container glass-panel">
@@ -263,6 +269,55 @@
             </div>
         </section>
 
+        <!-- VISUAL ARCHIVE (Gallery Section) -->
+        <section id="gallery" class="gallery section-drift" style="margin-top: 100px; padding-top: 50px; position: relative;">
+            <h2 class="section-title" style="text-align: left; width: 100%;">VISUAL <span class="highlight-cyan" style="font-size: 1.2em;">ARCHIVE</span></h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 40px; text-align: left;">Showcasing hackathons, hardware prototypes, and physical events.</p>
+            
+            <div class="gallery-grid">
+                <!-- Placeholder items that the user can replace later -->
+                <div class="gallery-item hover-lift magnetic gsap-gallery-item" data-strength="10">
+                    <div class="gallery-image-wrapper">
+                        <img src="resolve_photo.jpg" alt="JEC-RESOLVE Hackathon Team" onerror="this.src='https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070&auto=format&fit=crop'">
+                    </div>
+                     <div class="gallery-caption">
+                         <h4>CODE KUMBH 2.0</h4>
+                         <p>JEC-RESOLVE Team executing the 24-hour sprint.</p>
+                     </div>
+                </div>
+
+                <div class="gallery-item hover-lift magnetic gsap-gallery-item" data-strength="10">
+                    <div class="gallery-image-wrapper">
+                        <img src="roborace.jpg" alt="Robo Race Setup" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop'">
+                    </div>
+                     <div class="gallery-caption">
+                         <h4>Robotics Platform</h4>
+                         <p>Testing the high-speed chassis for INERTIA 2.0.</p>
+                     </div>
+                </div>
+
+                <div class="gallery-item hover-lift magnetic gsap-gallery-item" data-strength="10">
+                    <div class="gallery-image-wrapper">
+                        <img src="doorlock_archive.png" alt="Smart Door Lock Simulation" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2069&auto=format&fit=crop'">
+                    </div>
+                     <div class="gallery-caption">
+                         <h4>Smart Door Lock</h4>
+                         <p>Tinkercad simulation of an automated security system.</p>
+                     </div>
+                </div>
+
+                <div class="gallery-item hover-lift magnetic gsap-gallery-item" data-strength="10">
+                    <div class="gallery-image-wrapper">
+                        <img src="hygiene_sim.png" alt="Touchless Safety System Simulation" onerror="this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2069&auto=format&fit=crop'">
+                    </div>
+                     <div class="gallery-caption">
+                         <h4>Touchless Safety System</h4>
+                         <p>Tinkercad simulation of an autonomous sanitization unit.</p>
+                     </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Contact & About Section (The Contact Matrix) -->
         <section id="contact" class="contact-section section-drift" style="position: relative;">
             <div class="contact-panel glass-panel">
@@ -331,7 +386,7 @@
     <!-- Global Bottom Nav Bar -->
     <nav class="bottom-nav-bar">
         <a href="#clubs" class="magnetic" data-strength="10">&larr; JEC NETWORK</a>
-        <a href="CV.pdf" target="_blank" class="download-cv-footer magnetic" data-strength="10">DOWNLOAD SCHEMATICS (CV)</a>
+        <a href="om_resume.pdf" target="_blank" download class="download-cv-footer magnetic" data-strength="10">DOWNLOAD SCHEMATICS (CV)</a>
         <a href="#showcase" class="magnetic" data-strength="10">PROJECT FORGE &rarr;</a>
     </nav>
 
@@ -345,9 +400,9 @@
                     <div class="modal-badge-container">
                         <span id="modal-badge" class="tag" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 15px;"></span>
                     </div>
-                    <h2 id="modal-title" class="title" style="margin-bottom: 10px; font-size: 3rem;">Project Name</h2>
-                    <h4 id="modal-tech" class="subtitle" style="color: var(--accent-green); margin-bottom: 30px;">Tech Stack</h4>
-                    <div id="modal-desc" class="description" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; line-height: 1.8; margin-bottom: 40px;">Description goes here.</div>
+                    <h2 id="modal-title" class="title" style="margin-bottom: 10px; font-size: 3rem;"></h2>
+                    <h4 id="modal-tech" class="subtitle" style="color: var(--accent-green); margin-bottom: 30px;"></h4>
+                    <div id="modal-desc" class="description" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; line-height: 1.8; margin-bottom: 40px;"></div>
                     <a href="#" target="_blank" class="btn-primary btn-linkedin-pulse magnetic" data-strength="30" id="modal-linkedin-btn" style="position: relative; z-index: 10; display: none; width: fit-content;">View Journey on LinkedIn</a>
                 </div>
 
@@ -358,21 +413,19 @@
                             <img id="modal-image" src="" alt="Project Visuals" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid #3f51b5; box-shadow: 0 0 15px rgba(63, 81, 181, 0.4);">
                             <p id="modal-image-caption" style="margin-top: 15px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #e2e8f0; text-align: center; display: none;"></p>
                         </div>
-                        <div id="modal-custom-tech-stack" style="display: none; width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.02), 0 10px 30px rgba(0, 0, 0, 0.3);">
-                            <h4 style="color: var(--accent-green); margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;">Detailed Hardware & Firmware Architecture</h4>
-                            <p style="color: var(--text-primary); margin-bottom: 10px; font-weight: 600;">Hardware:</p>
-                            <ul style="list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 0.85rem; line-height: 1.6; color: #e2e8f0;">
-                                <li>⚙️ Arduino Microcontroller (Logic Controller)</li>
-                                <li>⚙️ High-Torque DC Motors (Propulsion)</li>
-                                <li>⚙️ L298N Dual H-Bridge Motor Driver (Power Delivery)</li>
+                                                                        <div id="modal-custom-tech-stack" style="display: none; width: 100%; background: linear-gradient(145deg, #0f0f12, #050505); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);">
+                            <h4 style="color: var(--accent-green); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; letter-spacing: 0.5px;">Hardware &amp; Firmware Architecture</h4>
+                            <p style="color: var(--text-primary); margin-bottom: 8px; font-weight: 600; font-size: 0.82rem;">Hardware:</p>
+                            <ul style="list-style: none; padding: 0; margin: 0 0 12px 0; font-size: 0.82rem; line-height: 1.9; color: #e2e8f0;">
+                                <li>⚙️ ESP32 Microcontroller (Logic Controller)</li>
+                                <li>⚙️ High-Torque DC Motors &amp; L298N Dual H-Bridge Motor Driver (Power Delivery)</li>
                                 <li>⚙️ HC-05 Bluetooth Module (Wireless Communication)</li>
-                                <li>⚙️ High-Capacity Li-Ion Battery Pack (Power Source)</li>
-                                <li>⚙️ Custom 4-Wheel Drive Robotic Chassis (Structural Foundation)</li>
+                                <li>⚙️ High-Capacity Li-Ion Battery Pack</li>
+                                <li>⚙️ Custom 4-Wheel Drive Robotic Chassis</li>
                             </ul>
-                            <p style="color: var(--text-primary); margin-bottom: 10px; font-weight: 600;">Software/Logic:</p>
-                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.6; color: #e2e8f0;">
-                                <li>💻 Custom C++ Firmware (Optimized Motor Speed and Direction Control)</li>
-                                <li>💻 Intuitive Control Logic for Precision Steering and Agile Obstacle Avoidance</li>
+                            <p style="color: var(--text-primary); margin-bottom: 8px; font-weight: 600; font-size: 0.82rem;">Software/Logic:</p>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.82rem; line-height: 1.9; color: #e2e8f0;">
+                                <li>💻 Custom C++ Firmware (optimized control) for precision steering and speed control.</li>
                             </ul>
                         </div>
                     </div>
@@ -380,6 +433,8 @@
 
             </div>
         </div>
+    </div>
+    </div>
     </div>
 
     <!-- Main Script -->

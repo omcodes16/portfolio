@@ -78,6 +78,7 @@ if (preloader && preloaderStages.length > 0) {
     }, 100);
 }
 
+
 function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
@@ -158,13 +159,13 @@ magneticElements.forEach((el) => {
     });
 });
 
-// Three.js Scene Setup (Floating Components)
+// Three.js Scene Setup (Cyber-Grid Topology)
 const container = document.getElementById('canvas-container');
 const scene = new THREE.Scene();
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 10;
+camera.position.z = 15;
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -172,86 +173,68 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 container.appendChild(renderer.domElement);
 
-// Lighting
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-
-const pointLight1 = new THREE.PointLight(0x00f2ff, 2, 50); // Cyan
-pointLight1.position.set(5, 5, 5);
-scene.add(pointLight1);
-
-const pointLight2 = new THREE.PointLight(0x39ff14, 2, 50); // Green
-pointLight2.position.set(-5, -5, 5);
-scene.add(pointLight2);
-
-// Objects (Abstract Hardware Components)
-const objects = [];
-
-// Innovation Badge (Code Kumbh)
-const badgeGeometry = new THREE.IcosahedronGeometry(2.5, 0);
-const badgeMaterial = new THREE.MeshStandardMaterial({ 
-    color: 0x39ff14, 
-    roughness: 0.1, 
-    metalness: 0.8,
-    wireframe: true,
-    emissive: 0x39ff14,
-    emissiveIntensity: 0.2
-});
-const badge1 = new THREE.Mesh(badgeGeometry, badgeMaterial);
-badge1.position.set(-6, 2, -4);
-scene.add(badge1);
-objects.push({ mesh: badge1, rotSpeedX: 0.005, rotSpeedY: 0.01, floatSpeed: 0.015, floatOffset: 0 });
-
-// Interactive Mesh Background (Points)
+// Cyber-Grid Topology (Points & Lines)
 const particlesGeometry = new THREE.BufferGeometry();
-const particlesCount = 1500;
+const particlesCount = 800; // Optimal for performance & aesthetics
 const posArray = new Float32Array(particlesCount * 3);
 
 for(let i = 0; i < particlesCount * 3; i++) {
-    posArray[i] = (Math.random() - 0.5) * 50;
+    // Spread out across a wide area
+    posArray[i] = (Math.random() - 0.5) * 60;
 }
 particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
+// Deep Indigo and Cyber Lime Material
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.05,
-    color: 0x00f2ff,
+    size: 0.08,
+    color: 0x3f51b5, // Electric Indigo base
     transparent: true,
-    opacity: 0.4,
+    opacity: 0.6,
     blending: THREE.AdditiveBlending
 });
 
 const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
 scene.add(particlesMesh);
 
-// User Interactivity for Mesh
-let mousePos = { x: 0, y: 0 };
-window.addEventListener('mousemove', (event) => {
-    mousePos.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mousePos.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// Optional: Subtle connection lines (Wireframe Sphere to simulate mesh network)
+const meshGeometry = new THREE.IcosahedronGeometry(20, 2);
+const meshMaterial = new THREE.MeshBasicMaterial({
+    color: 0xccff00, // Cyber Lime nodes
+    wireframe: true,
+    transparent: true,
+    opacity: 0.03,
+    blending: THREE.AdditiveBlending
+});
+const meshNetwork = new THREE.Mesh(meshGeometry, meshMaterial);
+scene.add(meshNetwork);
+
+// Handle window resize dynamically inside ThreeJS setup
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
 // Animation Loop
 let time = 0;
 function animateThree() {
     requestAnimationFrame(animateThree);
-    time += 0.01;
+    time += 0.005;
 
-    // Rotate and float objects
-    objects.forEach(obj => {
-        obj.mesh.rotation.x += obj.rotSpeedX;
-        obj.mesh.rotation.y += obj.rotSpeedY;
-        // Floating effect
-        obj.mesh.position.y += Math.sin(time * obj.floatSpeed * 100 + obj.floatOffset) * 0.005;
-    });
+    // Slow organic rotation
+    particlesMesh.rotation.y = time * 0.5;
+    particlesMesh.rotation.x = time * 0.2;
+    meshNetwork.rotation.y = -time * 0.3;
+    meshNetwork.rotation.z = time * 0.1;
 
-    // Animate Particles Mesh based on mouse
-    particlesMesh.rotation.y = mousePos.x * 0.2 + time * 0.05;
-    particlesMesh.rotation.x = -mousePos.y * 0.2 + time * 0.05;
-
-    // Parallax effect based on mouse (mild)
-    camera.position.x += (mousePos.x * 2 - camera.position.x) * 0.02;
-    camera.position.y += (mousePos.y * 2 - camera.position.y) * 0.02;
-    camera.lookAt(scene.position);
+    // Interactive Mouse Parallax (translating camera slightly)
+    if (typeof mouseX !== 'undefined') {
+        const mx = (mouseX / window.innerWidth) * 2 - 1;
+        const my = -(mouseY / window.innerHeight) * 2 + 1;
+        camera.position.x += (mx * 2 - camera.position.x) * 0.05;
+        camera.position.y += (my * 2 - camera.position.y) * 0.05;
+        camera.lookAt(scene.position);
+    }
 
     renderer.render(scene, camera);
 }
@@ -268,125 +251,6 @@ const driftObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.section-drift').forEach((el) => {
     driftObserver.observe(el);
-});
-
-// Project Nexus Deep Dive (Modal Logic)
-const modal = document.getElementById('project-modal');
-const closeModalBtn = document.querySelector('.close-modal');
-const projectCards = document.querySelectorAll('.bento-card[data-project]');
-
-const projectData = {
-    'resolve': {
-        title: 'JEC-RESOLVE',
-        tech: 'React.js, Web Tech, Database.',
-        badge: 'Best in Open Innovation @ Code Kumbh 2.0',
-        img: 'resolve_photo.png', /* Deep Dive Image */
-        link: 'https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_openinnovation-firsthackathon-webdevelopment-activity-7438593608766615552-pN-e?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4',
-        btnText: 'Verify Win on LinkedIn',
-        desc: `🏆 Champions of Open Innovation Category at My First Ever Hackathon! 🚀\n\n24 hours of relentless coding, fixing complex database routing bugs at 3 AM, and deploying a live project just minutes before the final pitch. The adrenaline rush of building something impactful from scratch is absolutely unmatched.\nI am incredibly proud to share that in my very first year of engineering, my team, The Code Matrix, secured the Position (Best in Open Innovation) at the CODE KUMBH 2.0 Hackathon held at Jabalpur Engineering College (JEC). 🥇\n\nValidation of Innovation: Direct IIT Kanpur Qualification\nA pivotal moment in validating JEC-RESOLVE’s innovation was achieving direct qualification for the prestigious Hackathon round at TechKriti '26, IIT Kanpur. Documented in the attached official email, this direct entry validates the unique problem-solving approach and technical merit of the grievance ecosystem, receiving recognition from a premier engineering institution without requiring standard preliminary stages.\n\n💡 The Vision: Institutional grievance systems often suffer from delayed responses, lost paperwork, and a lack of accountability. We wanted to change that by forcing transparency.\n\n🔥 The Product: We engineered JEC-RESOLVE—an enterprise-grade Smart Grievance Ecosystem designed for 100% accountable digital governance.\n\n⚙️ The Core Architecture:\n🔹 Smart Routing: Our algorithm auto-assigns student complaints directly to the exact department head, eliminating middleman delays.\n🔹 SLA Time-Locks: Authorities are forced to set a strict resolution deadline. Until then, the system is time-locked to prevent ticket spamming.\n🔹 Auto-Escalation: The ultimate game-changer. If a ticket remains unresolved past the deadline, it automatically escalates up a 4-tier chain (Local Admin ➡️ Dept Head ➡️ Branch HOD ➡️ Principal).\n🔹 Public Ledger: Every single campus issue is visible on a live public feed, ensuring complete transparency for everyone.\n\n🙌 The Dream Team:\nBuilding a full-stack application (React + Supabase) in 24 hours and executing it flawlessly under immense pressure was only possible because of this squad's dedication:\n👑 Team Leader: [Karan Singh]\n💻 Team Members : OM GIRI GOSWAMI| [Punit Simaiya] | [Nitin Kushwaha] | [yogendra Gayakwad]\nMassive gratitude to the JLUG JEC for hosting this incredible 24-hour heckhaton.\nWe came. We coded. We innovated. On to the next challenge! 💻🔥\n\n#OpenInnovation #FirstHackathon #WebDevelopment #ReactJS #JECJabalpur #SoftwareEngineering #TechJourney #TheCodeMatrix #BuildInPublic`
-    },
-    'doorlock': {
-        title: 'Smart Security Lock',
-        tech: 'C++, Arduino, Wokwi Simulation.',
-        badge: 'Key Skill: Embedded Logic & Circuit Design.',
-        link: 'https://wokwi.com/arduino',
-        btnText: 'View Live Schematic on Wokwi',
-        desc: `As an ECE student at Jabalpur Engineering College, I’m always curious about how the devices around us actually work. With my second semester approaching, I decided to dive into the world of microcontrollers early through simulation.\nI recently built a Smart Door Lock System to understand the logic behind security automation. While I haven't worked with these components in a physical lab yet, simulation has been an incredible way to visualize the "why" and "how" of circuit design.\n\nWhat I explored in this project:\n🔹 Parallel Communication: Learning how a Standard 16-pin LCD receives data across multiple channels simultaneously.\n🔹 Input Logic: Using a 4x4 Keypad to capture user data.\n🔹 Mechanical Actuation: Controlling a Micro Servo motor to simulate a physical lock.\n\nThe "Magic" Moment: When the correct 4-digit PIN is accepted, the system triggers the motor to rotate, unlocking the mechanism for 5 seconds.\nI don't know yet when I’ll get to build this with real hardware in our college labs, but this virtual "head start" has made me even more excited for my upcoming ECE coursework!\n\n#JECJabalpur #ECEStudent #Arduino #FutureEngineer #LearningByDoing #EmbeddedSystems #Electronics.`
-    },
-    'hygiene': {
-        title: 'Touchless Safety System',
-        tech: 'Arduino, Tinkercad, Ultrasonic Sensors.',
-        badge: 'Key Skill: Sensor Integration & ECE Fundamentals.',
-        link: 'https://tinkercad.com/things',
-        btnText: 'View Live Tinkercad Circuit',
-        desc: `🚀 Project Spotlight: Smart Non-Contact Hygiene & Safety System\nAfter successfully building a Smart Door Lock, I wanted to push my boundaries by exploring Autonomous Sensing and Touchless Interaction. This project is a step forward in creating smart, real-world solutions using Embedded Systems.\n\n⚡ Working:\nThe system continuously monitors the environment using ultrasonic waves. It automatically triggers a sanitizer dispenser when a hand is detected and provides real-time proximity alerts to maintain social distancing.\n\n🛠️ Key Features:\n🔹 Touchless Actuation: Automatic sanitizer dispensing using a Servo Motor.\n🔹 Real-time Proximity Sensing: Distance calculation using the HC-SR04 Ultrasonic Sensor.\n🔹 Visual & Audio Alerts: Dual-LED (Red/Green) and Piezo Buzzer for instant user feedback.\n🔹 Threshold Logic: Autonomous decision-making based on distance zones (<10cm for action, 10–40cm for alert).\n\n🧰 Components Used:\nArduino Uno (The Brain)\nHC-SR04 Ultrasonic Sensor (The Eyes)\nMicro Servo Motor (The Actuator)\nPiezo Buzzer & LEDs (The Interface)\nResistors & Breadboard\n\n⚙️ Technologies & Tools:\nEmbedded C++ (Programming)\nTinkercad (Circuit Design & Simulation)\nLogic-based Automation\n\n💡 Future Scope:\nIntegration with an LCD Display for status monitoring.\nIoT-based Remote Monitoring to track sanitizer levels.\nPredictive maintenance using sensor data history.\n\nAs a first-year student at Jabalpur Engineering College, I am constantly exploring the "why" and "how" of ECE.\n\n#JECJabalpur #ECE #Arduino #EmbeddedSystems #Automation #TouchlessTech #Innovation #LearningByDoing #FutureEngineer`
-    },
-    'roborace': {
-        title: 'Deep Dive: Project Kinetic Showdown',
-        tech: 'competitive Engineering Constraint',
-        badge: 'Team THE ROBO RANGERS | Hosted by INERTIA 2.0',
-        img: 'image_872704.jpg',
-        imgCaption: 'Team THE ROBO RANGERS with competing robot platform: Kinetic Showdown Performance Validation.',
-        link: '',
-        btnText: '',
-        desc: `Designing a robust, agile, and high-speed robotic vehicle capable of navigating complex, tight-timed obstacle courses with maximum power-to-weight ratio and precise control algorithms. Focus areas included chassis stability and power delivery mechanisms translated from operator inputs.`
-    }
-};
-
-projectCards.forEach(card => {
-    card.addEventListener('click', () => {
-        const projectId = card.getAttribute('data-project');
-        const data = projectData[projectId];
-        
-        if(data) {
-            document.getElementById('modal-title').textContent = data.title;
-            document.getElementById('modal-desc').textContent = data.desc;
-            document.getElementById('modal-tech').textContent = data.tech;
-            
-            const customTechStack = document.getElementById('modal-custom-tech-stack');
-            const standardTechSubtitle = document.getElementById('modal-tech');
-            
-            if (projectId === 'roborace') {
-                if (customTechStack) customTechStack.style.display = 'block';
-                standardTechSubtitle.style.color = 'var(--accent-cyan)';
-            } else {
-                if (customTechStack) customTechStack.style.display = 'none';
-                standardTechSubtitle.style.color = 'var(--accent-green)';
-            }
-            
-            const badgeEl = document.getElementById('modal-badge');
-            if(data.badge) {
-                badgeEl.style.display = 'inline-block';
-                badgeEl.textContent = data.badge;
-            } else {
-                badgeEl.style.display = 'none';
-            }
-            
-            const linkBtn = document.getElementById('modal-linkedin-btn');
-            if(data.link) {
-                linkBtn.style.display = 'inline-block';
-                linkBtn.href = data.link;
-                linkBtn.textContent = data.btnText || 'View Journey on External Link';
-            } else {
-                linkBtn.style.display = 'none';
-            }
-            
-            // Image handling (Deep Dive Image / Right Column)
-            const rightCol = document.getElementById('modal-right');
-            const imgEl = document.getElementById('modal-image');
-            const captionEl = document.getElementById('modal-image-caption');
-            const modalBody = document.querySelector('.modal-body');
-            
-            if(data.img) {
-                imgEl.src = data.img;
-                rightCol.style.display = 'flex';
-                modalBody.classList.add('has-media');
-            } else {
-                imgEl.src = '';
-                rightCol.style.display = 'none';
-                modalBody.classList.remove('has-media');
-            }
-            
-            if(data.imgCaption && captionEl) {
-                captionEl.textContent = data.imgCaption;
-                captionEl.style.display = 'block';
-            } else if(captionEl) {
-                captionEl.style.display = 'none';
-            }
-            
-            // Re-bind magnetic listeners if necessary or just rely on existing
-            // Open modal
-            modal.classList.add('active');
-            
-            // Stop scroll
-            lenis.stop();
-        }
-    });
-});
-
-closeModalBtn.addEventListener('click', () => {
-    modal.classList.remove('active');
-    lenis.start();
 });
 
 // Handle Resize
@@ -647,3 +511,152 @@ if (contactForm) {
         }
     });
 }
+
+
+// --- Project Deep Dive Modal Logic ---
+const projectData = {
+    'resolve': {
+        title: 'JEC-RESOLVE',
+        tech: 'React.js, Web Tech, Database.',
+        badge: 'Best in Open Innovation @ Code Kumbh 2.0',
+        img: 'resolve_photo.jpg', /* Deep Dive Image */
+        link: 'https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_openinnovation-firsthackathon-webdevelopment-activity-7438593608766615552-pN-e?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4',
+        btnText: 'Verify Win on LinkedIn',
+        desc: `🏆 Champions of Open Innovation Category at My First Ever Hackathon! 🚀\n\n24 hours of relentless coding, fixing complex database routing bugs at 3 AM, and deploying a live project just minutes before the final pitch. The adrenaline rush of building something impactful from scratch is absolutely unmatched.\nI am incredibly proud to share that in my very first year of engineering, my team, The Code Matrix, secured the Position (Best in Open Innovation) at the CODE KUMBH 2.0 Hackathon held at Jabalpur Engineering College (JEC). 🥇\n\nValidation of Innovation: Direct IIT Kanpur Qualification\nA pivotal moment in validating JEC-RESOLVE’s innovation was achieving direct qualification for the prestigious Hackathon round at TechKriti '26, IIT Kanpur. Documented in the attached official email, this direct entry validates the unique problem-solving approach and technical merit of the grievance ecosystem, receiving recognition from a premier engineering institution without requiring standard preliminary stages.\n\n💡 The Vision: Institutional grievance systems often suffer from delayed responses, lost paperwork, and a lack of accountability. We wanted to change that by forcing transparency.\n\n🔥 The Product: We engineered JEC-RESOLVE—an enterprise-grade Smart Grievance Ecosystem designed for 100% accountable digital governance.\n\n⚙️ The Core Architecture:\n🔹 Smart Routing: Our algorithm auto-assigns student complaints directly to the exact department head, eliminating middleman delays.\n🔹 SLA Time-Locks: Authorities are forced to set a strict resolution deadline. Until then, the system is time-locked to prevent ticket spamming.\n🔹 Auto-Escalation: The ultimate game-changer. If a ticket remains unresolved past the deadline, it automatically escalates up a 4-tier chain (Local Admin ➡️ Dept Head ➡️ Branch HOD ➡️ Principal).\n🔹 Public Ledger: Every single campus issue is visible on a live public feed, ensuring complete transparency for everyone.\n\n🙌 The Dream Team:\nBuilding a full-stack application (React + Supabase) in 24 hours and executing it flawlessly under immense pressure was only possible because of this squad's dedication:\n👑 Team Leader: [Karan Singh]\n💻 Team Members : OM GIRI GOSWAMI| [Punit Simaiya] | [Nitin Kushwaha] | [yogendra Gayakwad]\nMassive gratitude to the JLUG JEC for hosting this incredible 24-hour heckhaton.\nWe came. We coded. We innovated. On to the next challenge! 💻🔥\n\n#OpenInnovation #FirstHackathon #WebDevelopment #ReactJS #JECJabalpur #SoftwareEngineering #TechJourney #TheCodeMatrix #BuildInPublic`
+    },
+    'doorlock': {
+        title: 'Smart Security Lock',
+        tech: 'C++, Arduino, Wokwi Simulation.',
+        badge: 'Key Skill: Embedded Logic & Circuit Design.',
+        link: 'https://wokwi.com/arduino',
+        btnText: 'View Live Schematic on Wokwi',
+        image: 'doorlock_sim.png',
+        caption: 'Circuit Diagram of the Smart Security Lock with Keypad & LCD',
+        desc: `As an ECE student at Jabalpur Engineering College, I’m always curious about how the devices around us actually work. With my second semester approaching, I decided to dive into the world of microcontrollers early through simulation.\nI recently built a Smart Door Lock System to understand the logic behind security automation. While I haven't worked with these components in a physical lab yet, simulation has been an incredible way to visualize the "why" and "how" of circuit design.\n\nWhat I explored in this project:\n🔹 Parallel Communication: Learning how a Standard 16-pin LCD receives data across multiple channels simultaneously.\n🔹 Input Logic: Using a 4x4 Keypad to capture user data.\n🔹 Mechanical Actuation: Controlling a Micro Servo motor to simulate a physical lock.\n\nThe "Magic" Moment: When the correct 4-digit PIN is accepted, the system triggers the motor to rotate, unlocking the mechanism for 5 seconds.\nI don't know yet when I’ll get to build this with real hardware in our college labs, but this virtual "head start" has made me even more excited for my upcoming ECE coursework!\n\n#JECJabalpur #ECEStudent #Arduino #FutureEngineer #LearningByDoing #EmbeddedSystems #Electronics.`
+    },
+    'hygiene': {
+        title: 'Touchless Safety System',
+        tech: 'Arduino, Tinkercad, Ultrasonic Sensors.',
+        badge: 'Key Skill: Sensor Integration & ECE Fundamentals.',
+        link: 'https://tinkercad.com/things',
+        btnText: 'View Live Tinkercad Circuit',
+        image: 'hygiene_sim.png',
+        caption: 'Design & Simulation of the Touchless Safety Concept in Tinkercad',
+        desc: `🚀 Project Spotlight: Smart Non-Contact Hygiene & Safety System\nAfter successfully building a Smart Door Lock, I wanted to push my boundaries by exploring Autonomous Sensing and Touchless Interaction. This project is a step forward in creating smart, real-world solutions using Embedded Systems.\n\n⚡ Working:\nThe system continuously monitors the environment using ultrasonic waves. It automatically triggers a sanitizer dispenser when a hand is detected and provides real-time proximity alerts to maintain social distancing.\n\n🛠️ Key Features:\n🔹 Touchless Actuation: Automatic sanitizer dispensing using a Servo Motor.\n🔹 Real-time Proximity Sensing: Distance calculation using the HC-SR04 Ultrasonic Sensor.\n🔹 Visual & Audio Alerts: Dual-LED (Red/Green) and Piezo Buzzer for instant user feedback.\n🔹 Threshold Logic: Autonomous decision-making based on distance zones (<10cm for action, 10–40cm for alert).\n\n🧰 Components Used:\nArduino Uno (The Brain)\nHC-SR04 Ultrasonic Sensor (The Eyes)\nMicro Servo Motor (The Actuator)\nPiezo Buzzer & LEDs (The Interface)\nResistors & Breadboard\n\n⚙️ Technologies & Tools:\nEmbedded C++ (Programming)\nTinkercad (Circuit Design & Simulation)\nLogic-based Automation\n\n💡 Future Scope:\nIntegration with an LCD Display for status monitoring.\nIoT-based Remote Monitoring to track sanitizer levels.\nPredictive maintenance using sensor data history.\n\nAs a first-year student at Jabalpur Engineering College, I am constantly exploring the "why" and "how" of ECE.\n\n#JECJabalpur #ECE #Arduino #EmbeddedSystems #Automation #TouchlessTech #Innovation #LearningByDoing #FutureEngineer`
+    },
+    'roborace': {
+        badge: "ROBO RACE",
+        title: "Deep Dive: Kinetic Showdown",
+        tech: "Team THE ROBO RANGERS | Hosted by COSMOS at INERTIA 2.0",
+        desc: "Engineering a high-speed, agile robotic platform for navigating complex obstacle courses required maximizing power-to-weight, ensuring structural integrity, and developing precise motor control algorithms in C++ for immediate physical input execution.",
+        linkedin: "",
+        image: "roborace.jpg",
+        caption: "Team THE ROBO RANGERS with competing platform.",
+        showCustomStack: true,
+        customHardware: [
+            "⚙️ ESP32 Microcontroller (Logic Controller)",
+            "⚙️ High-Torque DC Motors & L298N Dual H-Bridge Motor Driver (Power Delivery)",
+            "⚙️ HC-05 Bluetooth Module (Wireless Communication)",
+            "⚙️ High-Capacity Li-Ion Battery Pack",
+            "⚙️ Custom 4-Wheel Drive Robotic Chassis"
+        ],
+        customFirmware: [
+            "💻 Optimized C++ Control Firmware (ESP-IDF / Arduino core) for precision steering and speed control."
+        ]
+    }
+};
+
+const modal = document.getElementById('project-modal');
+const modalBadge = document.getElementById('modal-badge');
+const modalTitle = document.getElementById('modal-title');
+const modalTech = document.getElementById('modal-tech');
+const modalDesc = document.getElementById('modal-desc');
+const modalLinkedin = document.getElementById('modal-linkedin-btn');
+const modalImage = document.getElementById('modal-image');
+const modalCaption = document.getElementById('modal-image-caption');
+const modalRight = document.getElementById('modal-right');
+const modalCustomStack = document.getElementById('modal-custom-tech-stack');
+const closeBtn = document.querySelector('.close-modal');
+
+document.querySelectorAll('.bento-card[data-project]').forEach(card => {
+    card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return; // Ignore clicks on links
+
+        const projectId = card.getAttribute('data-project');
+        
+        if (projectData[projectId]) {
+            const data = projectData[projectId];
+            
+            modalBadge.textContent = data.badge;
+            modalTitle.textContent = data.title;
+            modalTech.innerHTML = data.tech;
+            modalDesc.textContent = data.desc;
+            
+            if(data.link || data.linkedin) {
+                modalLinkedin.href = data.link || data.linkedin;
+                modalLinkedin.style.display = 'inline-flex';
+                modalLinkedin.textContent = data.btnText || 'View Journey on External Link';
+            } else {
+                modalLinkedin.style.display = 'none';
+            }
+            
+            if(data.img || data.image) {
+                modalImage.src = data.img || data.image; // Use uploaded image
+                modalRight.style.display = 'flex';
+                if(data.caption || data.imgCaption) {
+                    modalCaption.textContent = data.caption || data.imgCaption;
+                    modalCaption.style.display = 'block';
+                } else {
+                    modalCaption.style.display = 'none';
+                }
+            } else {
+                modalRight.style.display = 'none';
+            }
+
+            if(data.showCustomStack) {
+                let hwHTML = `
+                    <h4 style="color: var(--accent-green); margin-bottom: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; letter-spacing: 0.5px;">Hardware & Firmware Architecture</h4>
+                    <p style="color: var(--text-primary); margin-bottom: 8px; font-weight: 600; font-size: 0.82rem;">Hardware:</p>
+                    <ul style="list-style: none; padding: 0; margin: 0 0 12px 0; font-size: 0.82rem; line-height: 1.9; color: #e2e8f0;">
+                `;
+                data.customHardware.forEach(item => { hwHTML += `<li>${item}</li>`; });
+                hwHTML += `</ul><p style="color: var(--text-primary); margin-bottom: 8px; font-weight: 600; font-size: 0.82rem;">Software/Logic:</p>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.82rem; line-height: 1.9; color: #e2e8f0;">`;
+                data.customFirmware.forEach(item => { hwHTML += `<li>${item}</li>`; });
+                hwHTML += `</ul>`;
+                
+                modalCustomStack.innerHTML = hwHTML;
+                modalCustomStack.style.display = 'block';
+            } else {
+                modalCustomStack.style.display = 'none';
+            }
+            
+            modal.classList.add('active');
+            if (typeof lenis !== 'undefined') lenis.stop(); // Pause scrolling
+        }
+    });
+});
+
+if(closeBtn) {
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        if (typeof lenis !== 'undefined') lenis.start();
+    });
+}
+
+// Close on outside click
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.classList.remove('active');
+        if (typeof lenis !== 'undefined') lenis.start();
+    }
+});
+
+// 4b. Visual Archive Gallery
+ScrollTrigger.batch('.gsap-gallery-item', {
+    onEnter: batch => gsap.fromTo(batch, 
+        { y: 50, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out" }
+    ),
+    start: "top 85%"
+});
