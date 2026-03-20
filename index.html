@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Om Giri Goswami | The ECE & Full-Stack OS</title>
+    <!-- Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis (Smooth Scrolling) -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <!-- Matter.js for Physics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+    <!-- Custom Magnetic Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Background 3D Canvas Container -->
+    <div id="canvas-container"></div>
+    
+    <!-- Trace Line Animation (PCB Trace) -->
+    <svg class="trace-line-container" viewBox="0 0 100 1000" preserveAspectRatio="none">
+        <path class="trace-line" d="M 50 0 L 50 200 L 80 250 L 80 500 L 20 600 L 20 800 L 50 850 L 50 1000" />
+    </svg>
+
+    <!-- Navigation Header (The 'Dock') -->
+    <nav class="dock">
+        <div class="dock-content">
+            <ul class="nav-links">
+                <li><a href="#home" class="magnetic" data-strength="15">Home</a></li>
+                <li><a href="#showcase" class="magnetic" data-strength="15">Projects</a></li>
+                <li><a href="#clubs" class="magnetic" data-strength="15">JEC Clubs</a></li>
+                <li><a href="#skills" class="magnetic" data-strength="15">The Lab</a></li>
+                <li><a href="#contact" class="magnetic" data-strength="15">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        
+        <!-- Hero Section (The 'About' System) -->
+        <section id="home" class="hero section-drift">
+            <div class="hero-content">
+                <h2 class="subtitle">First-year ECE Student at Jabalpur Engineering College (2025–2029). 7.71 SGPA.</h2>
+                <h1 class="title">OM GIRI <br><span class="highlight-cyan">GOSWAMI</span></h1>
+                <p class="description">"Bridging the gap between Hardware Precision and Software Innovation."</p>
+                <div class="cta-group">
+                    <button class="btn-primary magnetic" data-strength="40">View Projects</button>
+                    <button class="btn-secondary magnetic" data-strength="30">Download CV</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Innovation Vault (3-Project Interactive Grid) -->
+        <section id="showcase" class="showcase section-drift">
+            <h2 class="section-title">The Innovation <span class="highlight-green">Vault</span></h2>
+            
+            <div class="bento-grid">
+                <!-- JEC-RESOLVE Card -->
+                <div class="bento-card featured-card glow-border-card magnetic" data-strength="10" data-project="resolve">
+                    <div class="card-content">
+                        <div class="tag">JEC-RESOLVE</div>
+                        <h3>Smart Grievance Ecosystem</h3>
+                        <p>Visual: Web Dashboard Preview.</p>
+                        <button class="btn-secondary deep-dive-btn magnetic" data-strength="10" style="margin-top:15px; border-color:var(--accent-cyan); color:var(--accent-cyan);">Deep Dive</button>
+                    </div>
+                </div>
+
+                <!-- Smart Door Lock Card -->
+                <div class="bento-card parallax-card magnetic" data-strength="15" data-project="doorlock">
+                    <div class="card-content">
+                        <div class="tag">Smart Security Lock</div>
+                        <h3>Arduino & Keypad Logic</h3>
+                        <p>Visual: Wokwi Simulation Screenshot.</p>
+                        <button class="btn-secondary deep-dive-btn magnetic" data-strength="10" style="margin-top:15px; border-color:var(--accent-cyan); color:var(--accent-cyan);">Deep Dive</button>
+                    </div>
+                </div>
+
+                <!-- Non-Contact Hygiene Card -->
+                <div class="bento-card parallax-card magnetic" data-strength="15" data-project="hygiene">
+                    <div class="card-content">
+                        <div class="tag">Touchless Safety System</div>
+                        <h3>Ultrasonic Proximity Sensing</h3>
+                        <p>Visual: Tinkercad Circuit View.</p>
+                        <button class="btn-secondary deep-dive-btn magnetic" data-strength="10" style="margin-top:15px; border-color:var(--accent-cyan); color:var(--accent-cyan);">Deep Dive</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Network (Experience & Clubs) -->
+        <section id="clubs" class="clubs section-drift">
+            <h2 class="section-title">The <span class="highlight-cyan">Network</span></h2>
+            <div class="bento-grid">
+                <div class="bento-card parallax-card magnetic" data-strength="10">
+                    <div class="card-content">
+                        <div class="icon" style="font-size: 2.5rem; color: var(--accent-green); margin-bottom: 10px;">>_</div>
+                        <div class="tag">Technical Team</div>
+                        <h3>JLUG JEC</h3>
+                        <p>Focus on Open Source & Linux environment mastery.</p>
+                    </div>
+                </div>
+                <div class="bento-card parallax-card magnetic" data-strength="10">
+                    <div class="card-content">
+                        <div class="icon" style="font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 10px;">&#128200;</div>
+                        <div class="tag">Marketing & PR</div>
+                        <h3>MATRIX.JEC</h3>
+                        <p>Focus on Public Relations, strategy, and analytical growth.</p>
+                    </div>
+                </div>
+                <div class="bento-card parallax-card magnetic" data-strength="10">
+                    <div class="card-content">
+                        <div class="icon" style="font-size: 2.5rem; color: #ff3366; margin-bottom: 10px;">&#11088;</div>
+                        <div class="tag">Jan 2023 Certification</div>
+                        <h3>NCC Cadet</h3>
+                        <p>Building Discipline & Teamwork through rigorous leadership.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Tech Stack (Hardware & Web) -->
+        <section id="skills" class="skills section-drift">
+            <h2 class="section-title">The Tech <span class="highlight-cyan">Stack</span></h2>
+            <p style="margin-bottom: 20px; color: var(--text-muted);">Interactive Physics: Drag and throw these elements.</p>
+            <div id="physics-container" style="position: relative; width: 100%; height: 600px; border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; background: rgba(0,0,0,0.3);">
+                <!-- HTML elements for physics -->
+                <div class="physics-item soft" id="phys-react">React.js</div>
+                <div class="physics-item soft" id="phys-js">JavaScript</div>
+                <div class="physics-item soft" id="phys-c">C</div>
+                <div class="physics-item hard" id="phys-tinkercad">Tinkercad</div>
+                <div class="physics-item hard" id="phys-wokwi">Wokwi</div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Project Deep Dive Modal -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal magnetic" data-strength="20">&times;</button>
+            <div class="modal-body" style="overflow-y: auto; max-height: 80vh; padding-right: 20px;">
+                <div class="modal-left" style="width: 100%;">
+                    <div class="modal-badge-container">
+                        <span id="modal-badge" class="tag" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 15px;"></span>
+                    </div>
+                    <h2 id="modal-title" class="title" style="margin-bottom: 10px; font-size: 3rem;">Project Name</h2>
+                    <h4 id="modal-tech" class="subtitle" style="color: var(--accent-green); margin-bottom: 30px;">Tech Stack</h4>
+                    <div id="modal-desc" class="description" style="white-space: pre-wrap; line-height: 1.8; margin-bottom: 40px;">Description goes here.</div>
+                    <a href="#" target="_blank" class="btn-primary btn-linkedin-pulse magnetic" data-strength="30" id="modal-linkedin-btn" style="position: relative; z-index: 10;">View Journey on LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Script -->
+    <script src="script.js"></script>
+</body>
+</html>
