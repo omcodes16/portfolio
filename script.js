@@ -11,6 +11,73 @@ const lenis = new Lenis({
     infinite: false,
 });
 
+// Scrollytelling Preloader Logic
+const preloader = document.getElementById('scrolly-preloader');
+const preloaderStages = document.querySelectorAll('.preloader-content');
+let currentStageIndex = 0;
+let isPreloaderActive = true;
+let scrollAccumulator = 0;
+
+if (preloader && preloaderStages.length > 0) {
+    lenis.stop(); // Pause smooth scrolling while preloader runs
+    
+    const handlePreloaderScroll = (e) => {
+        if (!isPreloaderActive) return;
+        
+        scrollAccumulator += e.deltaY;
+        
+        if (scrollAccumulator > 150) { // Scroll Down
+            scrollAccumulator = 0;
+            if (currentStageIndex < preloaderStages.length - 1) {
+                preloaderStages[currentStageIndex].classList.remove('active');
+                currentStageIndex++;
+                preloaderStages[currentStageIndex].classList.add('active');
+            } else {
+                // Exit Preloader
+                isPreloaderActive = false;
+                preloader.style.opacity = '0';
+                preloader.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                    lenis.start(); // Resume global scrolling
+                    if (typeof initHeroAnimation === "function") {
+                        initHeroAnimation();
+                    }
+                }, 1000);
+            }
+        } else if (scrollAccumulator < -40) { // Scroll Up
+            scrollAccumulator = 0;
+            if (currentStageIndex > 0) {
+                preloaderStages[currentStageIndex].classList.remove('active');
+                currentStageIndex--;
+                preloaderStages[currentStageIndex].classList.add('active');
+            }
+        }
+    };
+    
+    // Attach to wheel event
+    window.addEventListener('wheel', handlePreloaderScroll, { passive: true });
+    
+    // Touch support for mobile swiping
+    let touchStartY = 0;
+    window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchmove', (e) => {
+        if (!isPreloaderActive) return;
+        const touchEndY = e.touches[0].clientY;
+        const deltaY = touchStartY - touchEndY;
+        handlePreloaderScroll({ deltaY: deltaY * 2 }); // Amplify swipe logic
+        touchStartY = touchEndY;
+    }, { passive: true });
+} else {
+    lenis.start();
+    // Fire Hero animation immediately if preloader is missing
+    setTimeout(() => {
+        if (typeof initHeroAnimation === "function") {
+            initHeroAnimation();
+        }
+    }, 100);
+}
+
 function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
@@ -213,22 +280,36 @@ const projectData = {
         title: 'JEC-RESOLVE',
         tech: 'React.js, Web Tech, Database.',
         badge: 'Best in Open Innovation @ Code Kumbh 2.0',
+        img: 'resolve_photo.png', /* Deep Dive Image */
         link: 'https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_openinnovation-firsthackathon-webdevelopment-activity-7438593608766615552-pN-e?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4',
-        desc: `🏆 Champions of Open Innovation Category at My First Ever Hackathon! 🚀\n\n24 hours of relentless coding, fixing complex database routing bugs at 3 AM, and deploying a live project just minutes before the final pitch. The adrenaline rush of building something impactful from scratch is absolutely unmatched.\nI am incredibly proud to share that in my very first year of engineering, my team, The Code Matrix, secured the Position (Best in Open Innovation) at the CODE KUMBH 2.0 Hackathon held at Jabalpur Engineering College (JEC). 🥇\n\n💡 The Vision: Institutional grievance systems often suffer from delayed responses, lost paperwork, and a lack of accountability. We wanted to change that by forcing transparency.\n\n🔥 The Product: We engineered JEC-RESOLVE—an enterprise-grade Smart Grievance Ecosystem designed for 100% accountable digital governance.\n\n⚙️ The Core Architecture:\n🔹 Smart Routing: Our algorithm auto-assigns student complaints directly to the exact department head, eliminating middleman delays.\n🔹 SLA Time-Locks: Authorities are forced to set a strict resolution deadline. Until then, the system is time-locked to prevent ticket spamming.\n🔹 Auto-Escalation: The ultimate game-changer. If a ticket remains unresolved past the deadline, it automatically escalates up a 4-tier chain (Local Admin ➡️ Dept Head ➡️ Branch HOD ➡️ Principal).\n🔹 Public Ledger: Every single campus issue is visible on a live public feed, ensuring complete transparency for everyone.\n\n🙌 The Dream Team:\nBuilding a full-stack application (React + Supabase) in 24 hours and executing it flawlessly under immense pressure was only possible because of this squad's dedication:\n👑 Team Leader: [Karan Singh]\n💻 Team Members : OM GIRI GOSWAMI| [Punit Simaiya] | [Nitin Kushwaha] | [yogendra Gayakwad]\nMassive gratitude to the JLUG JEC for hosting this incredible 24-hour heckhaton.\nWe came. We coded. We innovated. On to the next challenge! 💻🔥\n\n#OpenInnovation #FirstHackathon #WebDevelopment #ReactJS #JECJabalpur #SoftwareEngineering #TechJourney #TheCodeMatrix #BuildInPublic`
+        btnText: 'Verify Win on LinkedIn',
+        desc: `🏆 Champions of Open Innovation Category at My First Ever Hackathon! 🚀\n\n24 hours of relentless coding, fixing complex database routing bugs at 3 AM, and deploying a live project just minutes before the final pitch. The adrenaline rush of building something impactful from scratch is absolutely unmatched.\nI am incredibly proud to share that in my very first year of engineering, my team, The Code Matrix, secured the Position (Best in Open Innovation) at the CODE KUMBH 2.0 Hackathon held at Jabalpur Engineering College (JEC). 🥇\n\nValidation of Innovation: Direct IIT Kanpur Qualification\nA pivotal moment in validating JEC-RESOLVE’s innovation was achieving direct qualification for the prestigious Hackathon round at TechKriti '26, IIT Kanpur. Documented in the attached official email, this direct entry validates the unique problem-solving approach and technical merit of the grievance ecosystem, receiving recognition from a premier engineering institution without requiring standard preliminary stages.\n\n💡 The Vision: Institutional grievance systems often suffer from delayed responses, lost paperwork, and a lack of accountability. We wanted to change that by forcing transparency.\n\n🔥 The Product: We engineered JEC-RESOLVE—an enterprise-grade Smart Grievance Ecosystem designed for 100% accountable digital governance.\n\n⚙️ The Core Architecture:\n🔹 Smart Routing: Our algorithm auto-assigns student complaints directly to the exact department head, eliminating middleman delays.\n🔹 SLA Time-Locks: Authorities are forced to set a strict resolution deadline. Until then, the system is time-locked to prevent ticket spamming.\n🔹 Auto-Escalation: The ultimate game-changer. If a ticket remains unresolved past the deadline, it automatically escalates up a 4-tier chain (Local Admin ➡️ Dept Head ➡️ Branch HOD ➡️ Principal).\n🔹 Public Ledger: Every single campus issue is visible on a live public feed, ensuring complete transparency for everyone.\n\n🙌 The Dream Team:\nBuilding a full-stack application (React + Supabase) in 24 hours and executing it flawlessly under immense pressure was only possible because of this squad's dedication:\n👑 Team Leader: [Karan Singh]\n💻 Team Members : OM GIRI GOSWAMI| [Punit Simaiya] | [Nitin Kushwaha] | [yogendra Gayakwad]\nMassive gratitude to the JLUG JEC for hosting this incredible 24-hour heckhaton.\nWe came. We coded. We innovated. On to the next challenge! 💻🔥\n\n#OpenInnovation #FirstHackathon #WebDevelopment #ReactJS #JECJabalpur #SoftwareEngineering #TechJourney #TheCodeMatrix #BuildInPublic`
     },
     'doorlock': {
         title: 'Smart Security Lock',
         tech: 'C++, Arduino, Wokwi Simulation.',
         badge: 'Key Skill: Embedded Logic & Circuit Design.',
-        link: 'https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_jecjabalpur-ecestudent-arduino-activity-7430947209938092032-5kXe?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4',
+        link: 'https://wokwi.com/arduino',
+        btnText: 'View Live Schematic on Wokwi',
         desc: `As an ECE student at Jabalpur Engineering College, I’m always curious about how the devices around us actually work. With my second semester approaching, I decided to dive into the world of microcontrollers early through simulation.\nI recently built a Smart Door Lock System to understand the logic behind security automation. While I haven't worked with these components in a physical lab yet, simulation has been an incredible way to visualize the "why" and "how" of circuit design.\n\nWhat I explored in this project:\n🔹 Parallel Communication: Learning how a Standard 16-pin LCD receives data across multiple channels simultaneously.\n🔹 Input Logic: Using a 4x4 Keypad to capture user data.\n🔹 Mechanical Actuation: Controlling a Micro Servo motor to simulate a physical lock.\n\nThe "Magic" Moment: When the correct 4-digit PIN is accepted, the system triggers the motor to rotate, unlocking the mechanism for 5 seconds.\nI don't know yet when I’ll get to build this with real hardware in our college labs, but this virtual "head start" has made me even more excited for my upcoming ECE coursework!\n\n#JECJabalpur #ECEStudent #Arduino #FutureEngineer #LearningByDoing #EmbeddedSystems #Electronics.`
     },
     'hygiene': {
         title: 'Touchless Safety System',
         tech: 'Arduino, Tinkercad, Ultrasonic Sensors.',
         badge: 'Key Skill: Sensor Integration & ECE Fundamentals.',
-        link: 'https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_jecjabalpur-ece-arduino-activity-7436074118791331840-QAa5?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4',
+        link: 'https://tinkercad.com/things',
+        btnText: 'View Live Tinkercad Circuit',
         desc: `🚀 Project Spotlight: Smart Non-Contact Hygiene & Safety System\nAfter successfully building a Smart Door Lock, I wanted to push my boundaries by exploring Autonomous Sensing and Touchless Interaction. This project is a step forward in creating smart, real-world solutions using Embedded Systems.\n\n⚡ Working:\nThe system continuously monitors the environment using ultrasonic waves. It automatically triggers a sanitizer dispenser when a hand is detected and provides real-time proximity alerts to maintain social distancing.\n\n🛠️ Key Features:\n🔹 Touchless Actuation: Automatic sanitizer dispensing using a Servo Motor.\n🔹 Real-time Proximity Sensing: Distance calculation using the HC-SR04 Ultrasonic Sensor.\n🔹 Visual & Audio Alerts: Dual-LED (Red/Green) and Piezo Buzzer for instant user feedback.\n🔹 Threshold Logic: Autonomous decision-making based on distance zones (<10cm for action, 10–40cm for alert).\n\n🧰 Components Used:\nArduino Uno (The Brain)\nHC-SR04 Ultrasonic Sensor (The Eyes)\nMicro Servo Motor (The Actuator)\nPiezo Buzzer & LEDs (The Interface)\nResistors & Breadboard\n\n⚙️ Technologies & Tools:\nEmbedded C++ (Programming)\nTinkercad (Circuit Design & Simulation)\nLogic-based Automation\n\n💡 Future Scope:\nIntegration with an LCD Display for status monitoring.\nIoT-based Remote Monitoring to track sanitizer levels.\nPredictive maintenance using sensor data history.\n\nAs a first-year student at Jabalpur Engineering College, I am constantly exploring the "why" and "how" of ECE.\n\n#JECJabalpur #ECE #Arduino #EmbeddedSystems #Automation #TouchlessTech #Innovation #LearningByDoing #FutureEngineer`
+    },
+    'roborace': {
+        title: 'Deep Dive: Project Kinetic Showdown',
+        tech: 'competitive Engineering Constraint',
+        badge: 'Team THE ROBO RANGERS | Hosted by INERTIA 2.0',
+        img: 'image_872704.jpg',
+        imgCaption: 'Team THE ROBO RANGERS with competing robot platform: Kinetic Showdown Performance Validation.',
+        link: '',
+        btnText: '',
+        desc: `Designing a robust, agile, and high-speed robotic vehicle capable of navigating complex, tight-timed obstacle courses with maximum power-to-weight ratio and precise control algorithms. Focus areas included chassis stability and power delivery mechanisms translated from operator inputs.`
     }
 };
 
@@ -242,6 +323,17 @@ projectCards.forEach(card => {
             document.getElementById('modal-desc').textContent = data.desc;
             document.getElementById('modal-tech').textContent = data.tech;
             
+            const customTechStack = document.getElementById('modal-custom-tech-stack');
+            const standardTechSubtitle = document.getElementById('modal-tech');
+            
+            if (projectId === 'roborace') {
+                if (customTechStack) customTechStack.style.display = 'block';
+                standardTechSubtitle.style.color = 'var(--accent-cyan)';
+            } else {
+                if (customTechStack) customTechStack.style.display = 'none';
+                standardTechSubtitle.style.color = 'var(--accent-green)';
+            }
+            
             const badgeEl = document.getElementById('modal-badge');
             if(data.badge) {
                 badgeEl.style.display = 'inline-block';
@@ -254,8 +346,32 @@ projectCards.forEach(card => {
             if(data.link) {
                 linkBtn.style.display = 'inline-block';
                 linkBtn.href = data.link;
+                linkBtn.textContent = data.btnText || 'View Journey on External Link';
             } else {
                 linkBtn.style.display = 'none';
+            }
+            
+            // Image handling (Deep Dive Image / Right Column)
+            const rightCol = document.getElementById('modal-right');
+            const imgEl = document.getElementById('modal-image');
+            const captionEl = document.getElementById('modal-image-caption');
+            const modalBody = document.querySelector('.modal-body');
+            
+            if(data.img) {
+                imgEl.src = data.img;
+                rightCol.style.display = 'flex';
+                modalBody.classList.add('has-media');
+            } else {
+                imgEl.src = '';
+                rightCol.style.display = 'none';
+                modalBody.classList.remove('has-media');
+            }
+            
+            if(data.imgCaption && captionEl) {
+                captionEl.textContent = data.imgCaption;
+                captionEl.style.display = 'block';
+            } else if(captionEl) {
+                captionEl.style.display = 'none';
             }
             
             // Re-bind magnetic listeners if necessary or just rely on existing
@@ -391,3 +507,143 @@ window.addEventListener('load', () => {
         Matter.Body.setPosition(ceiling, { x: newRect.width/2, y: -25 });
     });
 });
+
+// ==========================================
+// GSAP SCROLLTRIGGER ANIMATIONS
+// ==========================================
+
+// 1. Hero Entrance Animation (Triggered after Preloader)
+function initHeroAnimation() {
+    const tl = gsap.timeline();
+    // Start pulsing the background wireframe (simulated by scaling the canvas slightly)
+    gsap.to('#canvas-container', { scale: 1.05, duration: 10, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+
+    tl.to('.gsap-hero-name', { y: 0, opacity: 1, duration: 1, stagger: 0.3, ease: 'power3.out' })
+      .to('.gsap-hero-sub', { y: 0, opacity: 1, duration: 1, ease: 'power2.out' }, "-=0.5")
+      .to('.gsap-hero-btn', { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: 'back.out(1.7)' }, "-=0.3");
+}
+
+// Update the Scrollytelling Preloader logic to call initHeroAnimation
+const originalPreloaderExit = () => {
+    isPreloaderActive = false;
+    preloader.style.opacity = '0';
+    preloader.style.transform = 'scale(1.05)';
+    setTimeout(() => {
+        preloader.style.display = 'none';
+        lenis.start(); 
+        initHeroAnimation(); // Kick off hero when preloader dies
+    }, 1000);
+};
+
+// 2. Project Forge cascade (Fade & sweep left to right)
+gsap.utils.toArray('.bento-card').forEach((card, i) => {
+    // Only target projects (those inside vault-container)
+    if(card.closest('.vault-container')) {
+        gsap.to(card, {
+            scrollTrigger: {
+                trigger: '.vault-container',
+                start: "top 80%",
+            },
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            delay: i * 0.2 // Stagger based on index
+        });
+    }
+});
+
+// 3. JEC Network Clubs (Slide UP from bottom staggered)
+ScrollTrigger.batch('.gsap-club-card', {
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power2.out" }),
+    start: "top 85%"
+});
+
+// 4. Skills Lab (Gravity drop for blocks, right-slide for text)
+ScrollTrigger.batch('.gsap-skill-block', {
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "bounce.out" }),
+    start: "top 80%"
+});
+
+// 5. Contact Hub (Typewriter bio, input slides)
+ScrollTrigger.create({
+    trigger: '#contact',
+    start: "top 75%",
+    onEnter: () => {
+        // Typewriter effect for bio
+        const bio = document.querySelector('.gsap-contact-text');
+        const text = bio.innerText;
+        bio.innerText = '';
+        bio.style.opacity = 1;
+        let i = 0;
+        const typeWriter = setInterval(() => {
+            if (i < text.length) {
+                bio.innerHTML += text.charAt(i);
+                i++;
+            } else {
+                clearInterval(typeWriter);
+            }
+        }, 15); // Speed of typing
+
+        // Input fields glow/slide
+        gsap.to('.gsap-contact-input', { x: 0, opacity: 1, duration: 0.8, stagger: 0.1, delay: 0.5, ease: "power2.out" });
+        // Social pills left-slide
+        gsap.to('.social-pill', { x: 0, opacity: 1, duration: 0.6, stagger: 0.15, delay: 0.8, ease: "back.out(1.5)" });
+    }
+});
+
+// ==========================================
+// DYNAMIC NAVIGATION (SCROLL SPY)
+// ==========================================
+const scrollSpyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            let currentId = entry.target.getAttribute('id');
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active-nav');
+                if (link.getAttribute('href') === `#${currentId}`) {
+                    link.classList.add('active-nav');
+                }
+            });
+        }
+    });
+}, { threshold: 0.4 }); // Section is active when 40% visible
+
+document.querySelectorAll('section').forEach(section => {
+    scrollSpyObserver.observe(section);
+});
+
+// Smooth Anchor Scrolling using Lenis
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+            // Update active class immediately on click for snappier UI
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active-nav'));
+            link.classList.add('active-nav');
+            
+            lenis.scrollTo(targetSection, {
+                offset: 0, 
+                duration: 1.2
+            });
+        }
+    });
+});
+
+// Form Submission Success State
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('contact-submit-btn');
+        if (submitBtn) {
+            submitBtn.textContent = '✓ Message Sent';
+            submitBtn.style.color = '#fff';
+            submitBtn.style.border = '1px solid var(--accent-indigo)';
+            submitBtn.style.background = 'rgba(79, 70, 229, 0.2)';
+            submitBtn.style.boxShadow = '0 0 20px rgba(79, 70, 229, 0.6)';
+        }
+    });
+}

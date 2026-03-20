@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Om Giri Goswami | The ECE & Full-Stack OS</title>
-    <!-- Fonts: Inter & JetBrains Mono -->
+    <title>Om Giri Goswami | ECE Odyssey</title>
+    <!-- Fonts: Inter, JetBrains Mono, Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700;800&family=Montserrat:wght@400;500;700;800&family=Playfair+Display:wght@400;600;700;900&display=swap" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
     <!-- Three.js -->
@@ -21,6 +21,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
+    <!-- Scrollytelling Preloader (The 6-Stage Boot Sequence) -->
+    <div id="scrolly-preloader">
+        <div class="preloader-overlay"></div>
+        <div class="preloader-content active" id="stage-0">
+            <h1 class="serif-name" style="font-size: 4rem;">OM GIRI GOSWAMI</h1>
+        </div>
+        <div class="preloader-content" id="stage-1">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">First-Year ECE @ Jabalpur Engineering College.</h2>
+            <p class="preloader-subtext">NCC Cadet. Forged in discipline and execution.</p>
+        </div>
+        <div class="preloader-content" id="stage-2">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Hardware Logic meets AI-Assisted 'Vibe Coding'.</h2>
+            <div class="pcb-trace-visual"></div>
+        </div>
+        <div class="preloader-content" id="stage-3">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Open Source & Tech Strategy.</h2>
+            <p class="preloader-subtext">Driving Linux ecosystems via JLUG & shaping PR at MATRIX.JEC.</p>
+        </div>
+        <div class="preloader-content" id="stage-4">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Architect of JEC-RESOLVE.</h2>
+            <p class="preloader-subtext highlight-cyan" style="text-shadow: 0 0 10px var(--accent-cyan); font-weight: bold;">Winner: Code Kumbh 2.0 (Best in Open Innovation).</p>
+        </div>
+        <div class="preloader-content" id="stage-5">
+            <h2 class="font-mono highlight-lime" style="font-size: 2rem;">>_ Access Granted. System.Initialize()</h2>
+        </div>
+    </div>
     <!-- Custom Magnetic Cursor -->
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
@@ -38,128 +64,320 @@
         <div class="dock-content">
             <ul class="nav-links">
                 <li><a href="#home" class="magnetic" data-strength="15">Home</a></li>
-                <li><a href="#showcase" class="magnetic" data-strength="15">Projects</a></li>
-                <li><a href="#clubs" class="magnetic" data-strength="15">JEC Clubs</a></li>
-                <li><a href="#skills" class="magnetic" data-strength="15">The Lab</a></li>
-                <li><a href="#contact" class="magnetic" data-strength="15">Contact</a></li>
+                <li><a href="#showcase" class="magnetic" data-strength="15">Forge</a></li>
+                <li><a href="#clubs" class="magnetic" data-strength="15">Network</a></li>
+                <li><a href="#skills" class="magnetic" data-strength="15">Lab</a></li>
+                <li><a href="#contact" class="magnetic" data-strength="15">Hub</a></li>
             </ul>
         </div>
     </nav>
 
+    <!-- Global System Status Indicator -->
+    <div id="system-status">SYSTEM STATUS: IDLE</div>
+
     <!-- Main Content -->
     <main class="content-wrapper">
+
         
-        <!-- Hero Section (The 'About' System) -->
+
+        
+        <!-- Hero Section -->
         <section id="home" class="hero section-drift">
             <div class="hero-content">
-                <h2 class="subtitle">First-year ECE Student at Jabalpur Engineering College (2025–2029). 7.71 SGPA.</h2>
-                <h1 class="title">OM GIRI <br><span class="highlight-cyan">GOSWAMI</span></h1>
-                <p class="description">"Bridging the gap between Hardware Precision and Software Innovation."</p>
+                <h2 class="subtitle gsap-hero-sub" style="color: var(--accent-indigo); letter-spacing: 3px;">FIRST-YEAR ECE UNDERGRADUATE | Bridging the gap between Hardware Precision and Software Innovation.</h2>
+                <h1 class="title"><span class="serif-name gsap-hero-name">OM GIRI</span> <br><span class="sans-name highlight-cyan gsap-hero-name" style="text-shadow: 0 0 15px rgba(0,242,255,0.4);">GOSWAMI</span></h1>
+                <p class="description gsap-hero-sub">Architecting ecosystems, embedded logic, and intelligent solutions.</p>
                 <div class="cta-group">
-                    <button class="btn-primary magnetic" data-strength="40">View Projects</button>
-                    <button class="btn-secondary magnetic" data-strength="30">Download CV</button>
+                    <button class="btn-primary magnetic gsap-hero-btn" data-strength="40" onclick="document.getElementById('showcase').scrollIntoView({behavior: 'smooth'})">Explore The Vault</button>
+                    <button class="btn-secondary magnetic gsap-hero-btn" data-strength="30" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Contact Me</button>
                 </div>
             </div>
         </section>
 
-        <!-- The Innovation Vault (3-Project Interactive Grid) -->
-        <section id="showcase" class="showcase section-drift">
-            <h2 class="section-title">The Innovation <span class="highlight-green">Vault</span></h2>
+        <!-- PROJECT FORGE (3-Project Interactive Grid) -->
+        <section id="showcase" class="showcase section-drift" style="position: relative; background-color: #050505; background-image: repeating-linear-gradient(rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 40px);">
+            <h2 class="section-title" style="text-align: left; width: 100%;">PROJECT <span class="highlight-lime" style="font-size: 1.2em;">FORGE</span></h2>
             
-            <div class="bento-grid">
-                <!-- JEC-RESOLVE Card -->
-                <div class="bento-card featured-card glow-border-card magnetic" data-strength="10" data-project="resolve">
-                    <div class="card-content">
-                        <div class="tag">JEC-RESOLVE</div>
-                        <h3>Smart Grievance Ecosystem</h3>
-                        <p>Visual: Web Dashboard Preview.</p>
-                        <button class="btn-secondary deep-dive-btn magnetic" data-strength="10" style="margin-top:15px; border-color:var(--accent-cyan); color:var(--accent-cyan);">Deep Dive</button>
+                        <div class="vault-container" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; position: relative;">
+                <!-- Glowing Data Feed Line -->
+                <div class="data-feed-line"></div>
+                <!-- Card 1: JEC-RESOLVE (Top Left) -->
+                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 25px rgba(0, 242, 255, 0.15); overflow: hidden; position: relative; padding: 40px;" data-project="resolve">
+                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                    <div style="position: absolute; top: -50px; left: -50px; width: 140%; height: 140%; opacity: 0.15; z-index: 0; background-image: url('https://www.svgrepo.com/show/408453/network-chart-diagram-graph-node-analysis.svg'); background-size: cover; background-position: center;"></div>
+                    <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
+                        <div class="tag" style="position: static; display: inline-block; color: #000; background: var(--accent-green); border: none; font-weight: 800; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 8px; box-shadow: 0 0 10px rgba(57, 255, 20, 0.4); text-transform: uppercase; margin: 0;">JEC-RESOLVE</div>
+                        <h3 style="position: static; font-size: 2.2rem; margin: 0; font-weight: 800; letter-spacing: 1px;">Smart Grievance Ecosystem</h3>
+                        <p style="position: static; color: #e2e8f0; font-size: 0.95rem; line-height: 1.5; margin: 0;">Architected a comprehensive digital grievance ecosystem utilizing advanced technical architecture.</p>
+                        <ul style="position: static; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.6; font-weight: 500;">
+                            <li style="color: #ccff00; text-shadow: 0 0 8px rgba(204, 255, 0, 0.4);">🏆 WINNER: Code Kumbh 2.0 (Best in Open Innovation).</li>
+                            <li style="color: #8a2be2; text-shadow: 0 0 8px rgba(138, 43, 226, 0.6);">🚀 DIRECT QUALIFIER: TechKriti '24 Hackathon (IIT Kanpur).</li>
+                        </ul>
+                        <button class="btn-primary deep-dive-btn magnetic" data-strength="10" style="margin-top: auto; border-radius: 50px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem;">DEEP DIVE</button>
                     </div>
                 </div>
 
-                <!-- Smart Door Lock Card -->
-                <div class="bento-card parallax-card magnetic" data-strength="15" data-project="doorlock">
-                    <div class="card-content">
-                        <div class="tag">Smart Security Lock</div>
-                        <h3>Arduino & Keypad Logic</h3>
-                        <p>Visual: Wokwi Simulation Screenshot.</p>
-                        <button class="btn-secondary deep-dive-btn magnetic" data-strength="10" style="margin-top:15px; border-color:var(--accent-cyan); color:var(--accent-cyan);">Deep Dive</button>
+                <!-- Card 2: Smart Security Lock (Top Right) -->
+                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); overflow: hidden; position: relative; padding: 40px;" data-project="doorlock">
+                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; opacity: 0.05; z-index: 0; background-image: url('https://www.svgrepo.com/show/532392/lock-keyhole.svg'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+                    <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
+                        <div class="tag" style="position: static; display: inline-block; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); background: rgba(0, 242, 255, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0;">Smart Security Lock</div>
+                        <h3 style="position: static; margin: 0; font-weight: 700; letter-spacing: 1.5px; font-size: 1.8rem;">Hardware Prototyping</h3>
+                        <a href="https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_jecjabalpur-ecestudent-arduino-activity-7430947209938092032-5kXe?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4" target="_blank" class="btn-primary magnetic" data-strength="10" style="margin-top: auto; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem; text-decoration: none;">Verify on LinkedIn ↗</a>
                     </div>
                 </div>
 
-                <!-- Non-Contact Hygiene Card -->
-                <div class="bento-card parallax-card magnetic" data-strength="15" data-project="hygiene">
-                    <div class="card-content">
-                        <div class="tag">Touchless Safety System</div>
-                        <h3>Ultrasonic Proximity Sensing</h3>
-                        <p>Visual: Tinkercad Circuit View.</p>
-                        <button class="btn-secondary deep-dive-btn magnetic" data-strength="10" style="margin-top:15px; border-color:var(--accent-cyan); color:var(--accent-cyan);">Deep Dive</button>
+                <!-- Card 3: Non-Contact Hygiene Card (Bottom Left) -->
+                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.1); overflow: hidden; position: relative; padding: 40px;" data-project="hygiene">
+                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; opacity: 0.05; z-index: 0; background-image: url('https://www.svgrepo.com/show/532353/sensor-ultrasonic.svg'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+                    <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
+                        <div class="tag" style="position: static; display: inline-block; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); background: rgba(0, 242, 255, 0.1); padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin: 0;">Touchless Safety System</div>
+                        <h3 style="position: static; margin: 0; font-weight: 700; letter-spacing: 1.5px; font-size: 1.8rem;">Embedded Logic Validation</h3>
+                        <a href="https://www.linkedin.com/posts/om-giri-goswami-7b03a8374_jecjabalpur-ece-arduino-activity-7436074118791331840-QAa5?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFybSHQBva5Jjva8Ivu5Jlzv5AxXG4ve4-4" target="_blank" class="btn-primary magnetic" data-strength="10" style="margin-top: auto; display: inline-flex; align-items: center; justify-content: center; border-radius: 50px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem; text-decoration: none;">Verify on LinkedIn ↗</a>
+                    </div>
+                </div>
+
+                <!-- Card 4: ROBO RACE (Bottom Right) -->
+                <div class="bento-card hover-lift tilt-effect" style="height: 100%; min-height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(10, 15, 20, 0.6); backdrop-filter: blur(25px); border: none; border-radius: 20px; box-shadow: 0 0 25px rgba(0, 242, 255, 0.15); overflow: hidden; position: relative; padding: 40px;" data-project="roborace">
+                    <div style="position: absolute; inset: 0; border-radius: 20px; padding: 1px; background: linear-gradient(to bottom right, var(--accent-cyan), var(--accent-green)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; pointer-events: none; opacity: 1; z-index: 10;"></div>
+                    <div style="position: absolute; top: -50px; left: -50px; width: 140%; height: 140%; opacity: 0.05; z-index: 0; background-image: url('https://www.svgrepo.com/show/367676/robot.svg'); background-size: cover; background-position: center; filter: invert(1);"></div>
+                    <div class="card-content" style="position: relative; z-index: 1; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 1.5rem; height: 100%;">
+                        <div class="tag" style="position: static; display: inline-block; color: #000; background: var(--accent-green); border: none; font-weight: 800; letter-spacing: 1.5px; padding: 6px 14px; border-radius: 8px; box-shadow: 0 0 10px rgba(57, 255, 20, 0.4); text-transform: uppercase; margin: 0;">ROBO RACE</div>
+                        <h3 style="position: static; font-family: 'Inter', sans-serif; font-size: 2.2rem; margin: 0; font-weight: 800; letter-spacing: 1px; color: #fff; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);">Kinetic Showdown</h3>
+                        <p style="position: static; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; font-style: italic; margin: 0; margin-bottom: 5px;">Engineering Agility & High-Speed Performance Validation</p>
+                        <p style="position: static; color: var(--accent-green); font-size: 0.9rem; font-weight: 700; margin: 0;">Event: INERTIA 2.0</p>
+                        <p style="position: static; color: #fff; font-size: 0.9rem; font-weight: 700; margin: 0; margin-bottom: 15px;">Team <span style="color: var(--accent-cyan);">THE ROBO RANGERS</span></p>
+                        
+                        <ul style="position: static; list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.6; font-weight: 500; color: #e2e8f0;">
+                            <li>⚙️ Arduino Microcontroller (Logic Controller)</li>
+                            <li>⚙️ High-Torque DC Motors & Motor Driver (Propulsion)</li>
+                            <li>⚙️ HC-05 Bluetooth Module (Wireless Communication)</li>
+                            <li>💻 Optimized C++ Firmware (Steering & Speed)</li>
+                        </ul>
+                        <button class="btn-primary deep-dive-btn magnetic" data-strength="10" style="margin-top: auto; border-radius: 50px; border: 2px solid var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); background: rgba(0, 242, 255, 0.1); padding: 10px 24px; font-family: 'Inter', sans-serif; transition: all 0.3s ease; color: #fff; font-size: 0.85rem;">DEEP DIVE</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- JEC NETWORK (Experience & Clubs) -->
+        <section id="clubs" class="clubs section-drift" style="position: relative;">
+            <h2 class="section-title" style="text-align: left; width: 100%;">Professional Dynamics <span class="highlight-indigo" style="font-size: 1.2em;">& Leadership</span></h2>
+            
+            <div class="network-container glass-panel">
+                <div class="network-grid">
+                    <!-- Card 1: JLUG -->
+                    <div class="bento-card parallax-card magnetic gsap-club-card" data-strength="10" style="background: linear-gradient(to bottom right, #0a0a0a, #002244); border-color: rgba(0, 242, 255, 0.3); box-shadow: 0 0 15px rgba(0, 242, 255, 0.15);">
+                        <div class="card-content">
+                            <div class="icon-container" style="margin-bottom: 20px; position: relative; display: inline-block;">
+                                <div class="icon" style="font-size: 2.5rem; color: var(--accent-green); position: relative; z-index: 2;">>_</div>
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; background: rgba(57, 255, 20, 0.2); border-radius: 50%; filter: blur(5px); z-index: 1;"></div>
+                            </div>
+                            <h3 style="color: #ffffff;">JLUG JEC</h3>
+                            <div class="tag" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 20px; color: #ffffff;">Open Source Collaboration & Technical Ecosystems</div>
+                            <ul style="color: #e2e8f0; padding-left: 20px; font-size: 0.95rem; line-height: 1.6;">
+                                <li>Open Source Culture</li>
+                                <li>Linux System Mastery</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: MATRIX.JEC -->
+                    <div class="bento-card parallax-card magnetic gsap-club-card" data-strength="10" style="background: linear-gradient(to bottom right, #0a0a0a, #3a0000); border-color: rgba(220, 20, 60, 0.3); box-shadow: 0 0 15px rgba(220, 20, 60, 0.15);">
+                        <div class="card-content" style="margin-top: 50px;">
+                            <h3 style="color: #ffffff;">MATRIX.JEC</h3>
+                            <div class="tag" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 15px; color: #ffffff;">Strategic Communication & Public Relations</div>
+                            <ul style="color: #e2e8f0; padding-left: 20px; font-size: 0.95rem; line-height: 1.6;">
+                                <li>Strategic PR Campaigns</li>
+                                <li>Analytical Growth</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: NCC Cadet -->
+                    <div class="bento-card parallax-card magnetic gsap-club-card" data-strength="10" style="background: linear-gradient(to bottom right, #0a0a0a, #001f3f); border-color: rgba(255, 215, 0, 0.3); box-shadow: 0 0 15px rgba(255, 215, 0, 0.15);">
+                        <div class="card-content">
+                            <h3 style="color: #ffffff;">NCC Cadet</h3>
+                            <div class="tag" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 15px; color: #ffffff;">Discipline & High-Pressure Teamwork</div>
+                            <ul style="color: #e2e8f0; padding-left: 20px; font-size: 0.95rem; line-height: 1.6;">
+                                <li>Disciplined Navigation</li>
+                                <li>Team Leadership</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- The Network (Experience & Clubs) -->
-        <section id="clubs" class="clubs section-drift">
-            <h2 class="section-title">The <span class="highlight-cyan">Network</span></h2>
-            <div class="bento-grid">
-                <div class="bento-card parallax-card magnetic" data-strength="10">
-                    <div class="card-content">
-                        <div class="icon" style="font-size: 2.5rem; color: var(--accent-green); margin-bottom: 10px;">>_</div>
-                        <div class="tag">Technical Team</div>
-                        <h3>JLUG JEC</h3>
-                        <p>Focus on Open Source & Linux environment mastery.</p>
+        <!-- THE LAB (Skills Forge) -->
+        <section id="skills" class="skills section-drift" style="position: relative;">
+            <h2 class="section-title">THE <span class="highlight-lime">LAB</span> <span style="font-size: 1.5rem; color: var(--text-muted); font-family: var(--font-body); font-weight: 300;">(Skills Forge)</span></h2>
+            
+            <div class="skills-split-container">
+                <!-- Hard Skills (Tech / AI / Hardware) -->
+                <div class="hard-skills-panel">
+                    <h3 style="margin-bottom: 20px; color: var(--accent-cyan); font-family: var(--font-heading); font-size: 1.5rem;">Hard Skills & Tech</h3>
+                    <p style="margin-bottom: 20px; color: var(--text-muted); font-size: 0.9rem;">Interactive Physics: Drag and throw these elements.</p>
+                    <div id="physics-container" class="glass-panel" style="position: relative; width: 100%; height: 500px; overflow: hidden; padding: 0;">
+                        <!-- AI & Modern Tech (Soft) -->
+                        <div class="physics-item soft gsap-skill-block" id="phys-vibe" style="width: 130px; height: 130px;">Vibe Coding</div>
+                        <div class="physics-item soft gsap-skill-block" id="phys-prompt" style="width: 140px; height: 140px;">Prompt Engineering</div>
+                        <div class="physics-item soft gsap-skill-block" id="phys-arch">Tech Architecture</div>
+                        
+                        <!-- Hardware & Engineering (Hard) -->
+                        <div class="physics-item hard gsap-skill-block" id="phys-sim">Circuit Simulation</div>
+                        <div class="physics-item hard gsap-skill-block" id="phys-arduino">Arduino Logic</div>
+                        <div class="physics-item hard gsap-skill-block" id="phys-proto">Hardware Prototyping</div>
                     </div>
                 </div>
-                <div class="bento-card parallax-card magnetic" data-strength="10">
-                    <div class="card-content">
-                        <div class="icon" style="font-size: 2.5rem; color: var(--accent-cyan); margin-bottom: 10px;">&#128200;</div>
-                        <div class="tag">Marketing & PR</div>
-                        <h3>MATRIX.JEC</h3>
-                        <p>Focus on Public Relations, strategy, and analytical growth.</p>
-                    </div>
-                </div>
-                <div class="bento-card parallax-card magnetic" data-strength="10">
-                    <div class="card-content">
-                        <div class="icon" style="font-size: 2.5rem; color: #ff3366; margin-bottom: 10px;">&#11088;</div>
-                        <div class="tag">Jan 2023 Certification</div>
-                        <h3>NCC Cadet</h3>
-                        <p>Building Discipline & Teamwork through rigorous leadership.</p>
+
+                <!-- Soft Skills (Leadership / Communication) -->
+                <div class="soft-skills-panel">
+                    <h3 style="margin-bottom: 20px; color: var(--accent-green); font-family: var(--font-heading); font-size: 1.5rem;">Soft Skills & Leadership</h3>
+                    <div class="soft-skills-grid">
+                        <!-- Card 1 -->
+                        <div class="minimal-card magnetic" data-strength="10">
+                            <h4 style="color: var(--text-primary); margin-bottom: 12px; font-size: 1.1rem; font-family: var(--font-heading);">Public Relations & Outreach</h4>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Cultivated through strategic initiatives at MATRIX.JEC. Learning to manage scale and public engagement.</p>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="minimal-card magnetic" data-strength="10">
+                            <h4 style="color: var(--text-primary); margin-bottom: 12px; font-size: 1.1rem; font-family: var(--font-heading);">Open Source Culture</h4>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Understanding the Linux ecosystem, collaboration, and rapid development cycles via JLUG JEC.</p>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="minimal-card magnetic" data-strength="10">
+                            <h4 style="color: var(--text-primary); margin-bottom: 12px; font-size: 1.1rem; font-family: var(--font-heading);">Strategic Communication</h4>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Translating and presenting complex technical ideas to non-technical, diverse audiences.</p>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="minimal-card magnetic" data-strength="10">
+                            <h4 style="color: var(--text-primary); margin-bottom: 12px; font-size: 1.1rem; font-family: var(--font-heading);">Discipline & Teamwork</h4>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">Core values forged through rigorous training, protocols, and coordination as an NCC Cadet.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- The Tech Stack (Hardware & Web) -->
-        <section id="skills" class="skills section-drift">
-            <h2 class="section-title">The Tech <span class="highlight-cyan">Stack</span></h2>
-            <p style="margin-bottom: 20px; color: var(--text-muted);">Interactive Physics: Drag and throw these elements.</p>
-            <div id="physics-container" style="position: relative; width: 100%; height: 600px; border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; background: rgba(0,0,0,0.3);">
-                <!-- HTML elements for physics -->
-                <div class="physics-item soft" id="phys-react">React.js</div>
-                <div class="physics-item soft" id="phys-js">JavaScript</div>
-                <div class="physics-item soft" id="phys-c">C</div>
-                <div class="physics-item hard" id="phys-tinkercad">Tinkercad</div>
-                <div class="physics-item hard" id="phys-wokwi">Wokwi</div>
+        <!-- Contact & About Section (The Contact Matrix) -->
+        <section id="contact" class="contact-section section-drift" style="position: relative;">
+            <div class="contact-panel glass-panel">
+                
+                <!-- Left Column: Identity & Direct Contact -->
+                <div class="contact-left">
+                    <h2 style="font-family: var(--font-serif); font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 5px;">Profile & Contact</h2>
+                    <div style="width: 40px; height: 2px; background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); margin-bottom: 25px;"></div>
+                    
+                    <div class="about-text" style="max-width: 90%;">
+                        <div style="display: flex; flex-direction: column; gap: 24px;">
+                            <p class="gsap-contact-text" style="font-family: var(--font-body); font-size: 1.05rem; line-height: 1.8; color: #e2e8f0; margin: 0;">
+                                I am an ECE undergrad at Jabalpur Engineering College who builds fast. I bridge the gap between embedded hardware and digital interfaces using AI-assisted 'Vibe Coding'. Always ready to architect, innovate, and execute.
+                            </p>
+                                        
+                                        <!-- Direct Contact Glass Pill -->
+                                        <a href="mailto:omgiri68649@gmail.com" class="contact-glass-pill magnetic" data-strength="15">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                                <polyline points="22,6 12,13 2,6"></polyline>
+                                            </svg>
+                                            omgiri68649@gmail.com
+                                        </a>
+
+                                        <!-- The Social Orbit Connect Links -->
+                                        <div class="social-orbit-dock">
+                                            <!-- LinkedIn -->
+                                            <a href="https://www.linkedin.com/in/om-giri-goswami-7b03a8374" target="_blank" class="social-pill linkedin magnetic" data-strength="15">
+                                                <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/LinkedIn.svg" alt="LinkedIn">
+                                                Connect
+                                            </a>
+
+                                            <!-- GitHub -->
+                                            <a href="https://github.com/omcodes16" target="_blank" class="social-pill github magnetic" data-strength="15">
+                                                <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Github-Dark.svg" alt="GitHub">
+                                                Repository
+                                            </a>
+                                        </div>
+                                    </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: The Input Portal -->
+                <div class="contact-right">
+                    <!-- The Background abstract styling remains -->
+                    <div class="abstract-grid"></div>
+                    <div class="abstract-dot"></div>
+                    <div class="abstract-circle"></div>
+                    
+                    <form id="contact-form" class="contact-form" style="position: relative; z-index: 10;">
+                        <input type="text" class="gsap-contact-input" placeholder="Full Name" required>
+                        <input type="email" class="gsap-contact-input" placeholder="Email Address" required>
+                        <textarea rows="4" class="gsap-contact-input" placeholder="How can we collaborate?" required></textarea>
+                        <button type="submit" id="contact-submit-btn" class="btn-submit magnetic gsap-contact-input" data-strength="20">
+                            Send Message &nearr;
+                        </button>
+                    </form>
+                </div>
             </div>
         </section>
         
+    
+        
     </main>
+
+    <!-- Global Bottom Nav Bar -->
+    <nav class="bottom-nav-bar">
+        <a href="#clubs" class="magnetic" data-strength="10">&larr; JEC NETWORK</a>
+        <a href="CV.pdf" target="_blank" class="download-cv-footer magnetic" data-strength="10">DOWNLOAD SCHEMATICS (CV)</a>
+        <a href="#showcase" class="magnetic" data-strength="10">PROJECT FORGE &rarr;</a>
+    </nav>
 
     <!-- Project Deep Dive Modal -->
     <div id="project-modal" class="modal">
         <div class="modal-content">
             <button class="close-modal magnetic" data-strength="20">&times;</button>
-            <div class="modal-body" style="overflow-y: auto; max-height: 80vh; padding-right: 20px;">
-                <div class="modal-left" style="width: 100%;">
+            <div class="modal-body modal-grid-layout" style="overflow-y: auto; max-height: 80vh; padding-right: 20px;">
+                <!-- Technical Descriptions (Left Column) -->
+                <div class="modal-left" style="width: 100%; display: flex; flex-direction: column;">
                     <div class="modal-badge-container">
                         <span id="modal-badge" class="tag" style="position: relative; top: 0; left: 0; display: inline-block; margin-bottom: 15px;"></span>
                     </div>
                     <h2 id="modal-title" class="title" style="margin-bottom: 10px; font-size: 3rem;">Project Name</h2>
                     <h4 id="modal-tech" class="subtitle" style="color: var(--accent-green); margin-bottom: 30px;">Tech Stack</h4>
-                    <div id="modal-desc" class="description" style="white-space: pre-wrap; line-height: 1.8; margin-bottom: 40px;">Description goes here.</div>
-                    <a href="#" target="_blank" class="btn-primary btn-linkedin-pulse magnetic" data-strength="30" id="modal-linkedin-btn" style="position: relative; z-index: 10;">View Journey on LinkedIn</a>
+                    <div id="modal-desc" class="description" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; line-height: 1.8; margin-bottom: 40px;">Description goes here.</div>
+                    <a href="#" target="_blank" class="btn-primary btn-linkedin-pulse magnetic" data-strength="30" id="modal-linkedin-btn" style="position: relative; z-index: 10; display: none; width: fit-content;">View Journey on LinkedIn</a>
                 </div>
+
+                <!-- Image & Validation Panel (Right Column) -->
+                <div id="modal-right" class="modal-right" style="display: none; align-items: flex-start; justify-content: center; width: 100%;">
+                    <div style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 20px;">
+                        <div style="width: 100%;">
+                            <img id="modal-image" src="" alt="Project Visuals" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; border-radius: 12px; border: 1px solid #3f51b5; box-shadow: 0 0 15px rgba(63, 81, 181, 0.4);">
+                            <p id="modal-image-caption" style="margin-top: 15px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #e2e8f0; text-align: center; display: none;"></p>
+                        </div>
+                        <div id="modal-custom-tech-stack" style="display: none; width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 20px; box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.02), 0 10px 30px rgba(0, 0, 0, 0.3);">
+                            <h4 style="color: var(--accent-green); margin-bottom: 15px; font-family: 'JetBrains Mono', monospace; font-size: 1.1rem;">Detailed Hardware & Firmware Architecture</h4>
+                            <p style="color: var(--text-primary); margin-bottom: 10px; font-weight: 600;">Hardware:</p>
+                            <ul style="list-style: none; padding: 0; margin: 0 0 15px 0; font-size: 0.85rem; line-height: 1.6; color: #e2e8f0;">
+                                <li>⚙️ Arduino Microcontroller (Logic Controller)</li>
+                                <li>⚙️ High-Torque DC Motors (Propulsion)</li>
+                                <li>⚙️ L298N Dual H-Bridge Motor Driver (Power Delivery)</li>
+                                <li>⚙️ HC-05 Bluetooth Module (Wireless Communication)</li>
+                                <li>⚙️ High-Capacity Li-Ion Battery Pack (Power Source)</li>
+                                <li>⚙️ Custom 4-Wheel Drive Robotic Chassis (Structural Foundation)</li>
+                            </ul>
+                            <p style="color: var(--text-primary); margin-bottom: 10px; font-weight: 600;">Software/Logic:</p>
+                            <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.85rem; line-height: 1.6; color: #e2e8f0;">
+                                <li>💻 Custom C++ Firmware (Optimized Motor Speed and Direction Control)</li>
+                                <li>💻 Intuitive Control Logic for Precision Steering and Agile Obstacle Avoidance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
