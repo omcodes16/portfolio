@@ -7,14 +7,14 @@ const bentoHTML = `
         <section id="repository" class="bento-repository">
             <div class="bento-header" style="text-align: center; margin-bottom: 50px;">
                 <h1 style="font-family: 'Playfair Display', serif; font-size: 3.5rem; color: #fff; margin-bottom: 10px;">THE REPOSITORY <span style="font-size: 1.5rem; color: var(--text-muted); font-family: 'Inter', sans-serif;">(Uttam’s Codex)</span></h1>
-                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">A comprehensive look into Uttam Jaisinghpure's engineering journey at Jabalpur Engineering College.</p>
+                <p style="color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height: 1.6;">A comprehensive look into Om Giri Goswami's engineering journey at Jabalpur Engineering College.</p>
             </div>
 
             <div class="bento-grid">
                 
                 <!-- Tile 1: Identity & Intro (ID: home mapped for nav) -->
                 <div id="home" class="bento-tile identity-tile hover-glow">
-                    <h2 style="color: #fff; font-size: 1.8rem; margin-bottom: 8px;">Uttam Jaisinghpure <span style="font-size: 1rem; color: var(--accent-cyan); font-weight: 500;">(19, ECE Undergraduate)</span></h2>
+                    <h2 style="color: #fff; font-size: 1.8rem; margin-bottom: 8px;">Om Giri Goswami <span style="font-size: 1rem; color: var(--accent-cyan); font-weight: 500;">(19, ECE Undergraduate)</span></h2>
                     <h3 style="color: var(--accent-indigo); font-size: 1.1rem; margin-bottom: 15px; letter-spacing: 1px;">Hardware Prototyping <span style="color: var(--text-muted);">|</span> AI-Assisted 'Vibe Coding'</h3>
                     <p style="color: var(--text-muted); font-size: 1rem;">Jabalpur Engineering College (JEC), Jabalpur.</p>
                 </div>
