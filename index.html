@@ -21,30 +21,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
 </head>
 <body>
-                            <!-- Scrollytelling Preloader (The 6-Stage Boot Sequence) -->
-    <div id="scrolly-preloader">
-        <div class="preloader-overlay"></div>
-        <div class="preloader-content active" id="stage-0">
-            <h1 class="serif-name" style="font-size: 4rem;">UTTAM JAISINGHPURE</h1>
+    <!-- Unified Preloader: Welcome + 6-Stage Scrollytelling Overlay -->
+    <div id="unified-preloader">
+        <!-- Dedicated 3D Canvas for Preloader Particle Mesh -->
+        <canvas id="preloader-canvas"></canvas>
+
+        <!-- Phase 1: Automated Welcome (0s - 3s) -->
+        <div id="welcome-phase">
+            <p id="welcome-text"></p>
         </div>
-        <div class="preloader-content" id="stage-1">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">First-Year ECE @ Jabalpur Engineering College.</h2>
-            <p class="preloader-subtext">NCC Cadet. Forged in discipline and execution.</p>
-        </div>
-        <div class="preloader-content" id="stage-2">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Hardware Logic meets AI-Assisted 'Vibe Coding'.</h2>
-            <div class="pcb-trace-visual"></div>
-        </div>
-        <div class="preloader-content" id="stage-3">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Open Source & Tech Strategy.</h2>
-            <p class="preloader-subtext">Driving Linux ecosystems via JLUG & shaping PR at MATRIX.JEC.</p>
-        </div>
-        <div class="preloader-content" id="stage-4">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Architect of JEC-RESOLVE.</h2>
-            <p class="preloader-subtext highlight-cyan" style="text-shadow: 0 0 10px var(--accent-cyan); font-weight: bold;">Winner: Code Kumbh 2.0 (Best in Open Innovation).</p>
-        </div>
-        <div class="preloader-content" id="stage-5">
-            <h2 class="font-mono highlight-lime" style="font-size: 2rem;">>_ Access Granted. System.Initialize()</h2>
+
+        <!-- Phase 2: Scroll-Triggered 6-Stage Narrative -->
+        <div id="narrative-phase" class="hidden">
+            <div class="narrative-stage active" data-stage="0">
+                <h1 class="stage-name">OM GIRI GOSWAMI</h1>
+            </div>
+            <div class="narrative-stage" data-stage="1">
+                <h2 class="stage-title">B.Tech ECE @ Jabalpur Engineering College.</h2>
+                <p class="stage-sub">NCC Cadet. Forged in discipline and execution.</p>
+            </div>
+            <div class="narrative-stage" data-stage="2">
+                <h2 class="stage-title">Hardware Logic meets AI-Assisted 'Vibe Coding'.</h2>
+                <div class="pcb-trace-visual"></div>
+            </div>
+            <div class="narrative-stage" data-stage="3">
+                <h2 class="stage-title">Open Source &amp; Tech Strategy.</h2>
+                <p class="stage-sub">Driving Linux ecosystems via JLUG &amp; shaping PR at COSMOS.</p>
+            </div>
+            <div class="narrative-stage" data-stage="4">
+                <h2 class="stage-title">Architect of JEC-RESOLVE.</h2>
+                <p class="stage-sub highlight-gold">Winner: Code Kumbh 2.0 (Best in Open Innovation).</p>
+            </div>
+            <div class="narrative-stage" data-stage="5">
+                <h2 class="stage-access">&gt;_ Access Granted. System.Initialize()</h2>
+            </div>
+            <!-- Scroll progress hint -->
+            <div id="scroll-hint">
+                <span>SCROLL TO CONTINUE</span>
+                <div class="scroll-arrow">↓</div>
+                <div id="scroll-progress-bar"><div id="scroll-progress-fill"></div></div>
+            </div>
         </div>
     </div>
 

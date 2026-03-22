@@ -11,72 +11,234 @@ const lenis = new Lenis({
     infinite: false,
 });
 
-// Scrollytelling Preloader Logic
-const preloader = document.getElementById('scrolly-preloader');
-const preloaderStages = document.querySelectorAll('.preloader-content');
-let currentStageIndex = 0;
-let isPreloaderActive = true;
-let scrollAccumulator = 0;
+// =============================================
+// UNIFIED PRELOADER LOGIC
+// Phase 1: Welcome (0-3s) → Phase 2: 6-Stage Scrollytelling → Grand Reveal
+// =============================================
+(function() {
+    const preloader = document.getElementById('unified-preloader');
+    if (!preloader) { lenis.start(); return; }
 
-if (preloader && preloaderStages.length > 0) {
-    lenis.stop(); // Pause smooth scrolling while preloader runs
-    
-    const handlePreloaderScroll = (e) => {
-        if (!isPreloaderActive) return;
-        
-        scrollAccumulator += e.deltaY;
-        
-        if (scrollAccumulator > 150) { // Scroll Down
-            scrollAccumulator = 0;
-            if (currentStageIndex < preloaderStages.length - 1) {
-                preloaderStages[currentStageIndex].classList.remove('active');
-                currentStageIndex++;
-                preloaderStages[currentStageIndex].classList.add('active');
+    lenis.stop();
+
+    // ---- 3D PRELOADER PARTICLE MESH ----
+    const plCanvas = document.getElementById('preloader-canvas');
+    const plCtx   = plCanvas.getContext('2d');
+    let plW, plH, particles = [], plMouseX = 0, plMouseY = 0;
+    let plScrollRotY = 0, plScrollRotX = 0;
+    let plAnimId;
+
+    function resizePreloaderCanvas() {
+        plW = plCanvas.width  = window.innerWidth;
+        plH = plCanvas.height = window.innerHeight;
+    }
+    resizePreloaderCanvas();
+    window.addEventListener('resize', resizePreloaderCanvas);
+
+    // Build particle field
+    const PARTICLE_COUNT = 140;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+            x: Math.random() * 2 - 1,
+            y: Math.random() * 2 - 1,
+            z: Math.random() * 2 - 1,
+            r: Math.random() * 1.8 + 0.6,
+            speed: (Math.random() * 0.0003 + 0.0001)
+        });
+    }
+
+    function project(px, py, pz, fov) {
+        const scale = fov / (fov + pz);
+        return { sx: px * scale, sy: py * scale, scale };
+    }
+
+    let plTime = 0;
+    function drawPreloaderCanvas() {
+        plAnimId = requestAnimationFrame(drawPreloaderCanvas);
+        plCtx.clearRect(0, 0, plW, plH);
+        plTime += 0.003;
+
+        // Mouse parallax offsets
+        const mx = (plMouseX / plW) * 2 - 1;
+        const my = (plMouseY / plH) * 2 - 1;
+
+        const rotY = plScrollRotY + plTime * 0.12 + mx * 0.15;
+        const rotX = plScrollRotX + plTime * 0.05 + my * 0.08;
+
+        const fov = 320;
+        const cx  = plW / 2, cy = plH / 2;
+        const projPts = [];
+
+        particles.forEach((p, idx) => {
+            // 3D rotation: Y then X
+            const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+            const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+
+            let x = p.x, y = p.y, z = p.z;
+            // Rotate Y
+            let x1 = x * cosY - z * sinY;
+            let z1 = x * sinY + z * cosY;
+            // Rotate X
+            let y2 = y * cosX - z1 * sinX;
+            let z2 = y * sinX + z1 * cosX;
+
+            const proj = project(x1, y2, z2 + 2.5, fov);
+            const sx = cx + proj.sx * plW * 0.38;
+            const sy = cy + proj.sy * plH * 0.38;
+            const alpha = Math.min(1, Math.max(0.15, proj.scale));
+            const size  = p.r * proj.scale;
+
+            projPts.push({ sx, sy, alpha, size, idx });
+
+            // Draw node
+            plCtx.beginPath();
+            plCtx.arc(sx, sy, size, 0, Math.PI * 2);
+            // Color: deep indigo → emerald blend based on y
+            const g = Math.floor((p.y + 1) * 0.5 * 60);
+            plCtx.fillStyle = `rgba(${26 + g}, ${26 + g*2}, ${58 + g}, ${alpha * 0.85})`;
+            plCtx.fill();
+        });
+
+        // Draw edges between nearby nodes
+        for (let a = 0; a < projPts.length; a++) {
+            for (let b = a + 1; b < projPts.length; b++) {
+                const dx = projPts[a].sx - projPts[b].sx;
+                const dy = projPts[a].sy - projPts[b].sy;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 120) {
+                    const edgeAlpha = (1 - dist/120) * 0.22;
+                    plCtx.beginPath();
+                    plCtx.moveTo(projPts[a].sx, projPts[a].sy);
+                    plCtx.lineTo(projPts[b].sx, projPts[b].sy);
+                    plCtx.strokeStyle = `rgba(100, 120, 200, ${edgeAlpha})`;
+                    plCtx.lineWidth = 0.7;
+                    plCtx.stroke();
+                }
+            }
+        }
+    }
+
+    // Track mouse for parallax
+    window.addEventListener('mousemove', (e) => {
+        plMouseX = e.clientX;
+        plMouseY = e.clientY;
+    });
+
+    drawPreloaderCanvas();
+
+    // ---- PHASE 1: WELCOME TYPEWRITER ----
+    const welcomePhase   = document.getElementById('welcome-phase');
+    const welcomeTextEl  = document.getElementById('welcome-text');
+    const narrativePhase = document.getElementById('narrative-phase');
+
+    const welcomeMsg = '> Thank you for visiting my profile.';
+
+    function typeWriter(el, text, speed, done) {
+        let i = 0;
+        el.innerHTML = '<span class="terminal-cursor"></span>';
+        const cursor = el.querySelector('.terminal-cursor');
+        const tick = () => {
+            if (i < text.length) {
+                el.insertBefore(document.createTextNode(text[i++]), cursor);
+                setTimeout(tick, speed);
             } else {
-                // Exit Preloader
-                isPreloaderActive = false;
-                preloader.style.opacity = '0';
-                preloader.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                    lenis.start(); // Resume global scrolling
-                    if (typeof initHeroAnimation === "function") {
-                        initHeroAnimation();
-                    }
-                }, 1000);
+                if (done) done(cursor);
             }
-        } else if (scrollAccumulator < -40) { // Scroll Up
-            scrollAccumulator = 0;
-            if (currentStageIndex > 0) {
-                preloaderStages[currentStageIndex].classList.remove('active');
-                currentStageIndex--;
-                preloaderStages[currentStageIndex].classList.add('active');
-            }
-        }
-    };
-    
-    // Attach to wheel event
-    window.addEventListener('wheel', handlePreloaderScroll, { passive: true });
-    
-    // Touch support for mobile swiping
-    let touchStartY = 0;
-    window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; }, { passive: true });
-    window.addEventListener('touchmove', (e) => {
-        if (!isPreloaderActive) return;
-        const touchEndY = e.touches[0].clientY;
-        const deltaY = touchStartY - touchEndY;
-        handlePreloaderScroll({ deltaY: deltaY * 2 }); // Amplify swipe logic
-        touchStartY = touchEndY;
-    }, { passive: true });
-} else {
-    lenis.start();
-    // Fire Hero animation immediately if preloader is missing
+        };
+        setTimeout(tick, speed);
+    }
+
     setTimeout(() => {
-        if (typeof initHeroAnimation === "function") {
-            initHeroAnimation();
+        typeWriter(welcomeTextEl, welcomeMsg, 28, (cursor) => {
+            // Hold 0.5s then blur-fade out the welcome phase
+            setTimeout(() => {
+                cursor.remove();
+                welcomePhase.classList.add('fade-blur-out');
+
+                // After welcome fades (400ms), show narrative phase
+                setTimeout(() => {
+                    welcomePhase.style.display = 'none';
+                    narrativePhase.classList.remove('hidden');
+                    activateNarrativePhase();
+                }, 420);
+            }, 500);
+        });
+    }, 200);
+
+    // ---- PHASE 2: SCROLL-TRIGGERED NARRATIVE ----
+    const stages       = Array.from(document.querySelectorAll('.narrative-stage'));
+    const totalStages  = stages.length; // 6
+    const progressFill = document.getElementById('scroll-progress-fill');
+    let currentStage   = 0;
+    let scrollAcc      = 0;
+    const SCROLL_THRESH = 130; // px needed to advance
+    let narrativeActive = false;
+
+    function activateNarrativePhase() {
+        narrativeActive = true;
+        showStage(0);
+    }
+
+    function showStage(idx) {
+        stages.forEach((s, i) => {
+            s.classList.toggle('active', i === idx);
+        });
+        currentStage = idx;
+        if (progressFill) {
+            progressFill.style.width = ((idx / (totalStages - 1)) * 100) + '%';
         }
-    }, 100);
-}
+        // Spin the 3D mesh with scroll
+        plScrollRotY = (idx / (totalStages - 1)) * Math.PI * 0.8 * 15 * Math.PI/180;
+        plScrollRotX = (idx / (totalStages - 1)) * Math.PI * 0.8 * 5  * Math.PI/180;
+    }
+
+    function handleNarrativeScroll(e) {
+        if (!narrativeActive) return;
+        scrollAcc += e.deltaY;
+
+        if (scrollAcc > SCROLL_THRESH) {
+            scrollAcc = 0;
+            if (currentStage < totalStages - 1) {
+                showStage(currentStage + 1);
+            } else {
+                // Grand Reveal
+                triggerGrandReveal();
+            }
+        } else if (scrollAcc < -SCROLL_THRESH) {
+            scrollAcc = 0;
+            if (currentStage > 0) {
+                showStage(currentStage - 1);
+            }
+        }
+    }
+
+    // Touch support
+    let touchStartY2 = 0;
+    window.addEventListener('touchstart', (e) => { touchStartY2 = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchmove', (e) => {
+        if (!narrativeActive) return;
+        const delta = (touchStartY2 - e.touches[0].clientY) * 2;
+        handleNarrativeScroll({ deltaY: delta });
+        touchStartY2 = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('wheel', handleNarrativeScroll, { passive: true });
+
+    // ---- GRAND REVEAL ----
+    function triggerGrandReveal() {
+        narrativeActive = false;
+        cancelAnimationFrame(plAnimId); // Stop preloader canvas
+
+        preloader.classList.add('grand-reveal');
+
+        setTimeout(() => {
+            preloader.style.display = 'none';
+            lenis.start();
+            if (typeof initHeroAnimation === 'function') initHeroAnimation();
+        }, 820);
+    }
+
+})();
 
 
 function raf(time) {
@@ -387,17 +549,7 @@ function initHeroAnimation() {
       .to('.gsap-hero-btn', { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: 'back.out(1.7)' }, "-=0.3");
 }
 
-// Update the Scrollytelling Preloader logic to call initHeroAnimation
-const originalPreloaderExit = () => {
-    isPreloaderActive = false;
-    preloader.style.opacity = '0';
-    preloader.style.transform = 'scale(1.05)';
-    setTimeout(() => {
-        preloader.style.display = 'none';
-        lenis.start(); 
-        initHeroAnimation(); // Kick off hero when preloader dies
-    }, 1000);
-};
+// (Removed redundant originalPreloaderExit logic)
 
 // 2. Project Forge cascade (Fade & sweep left to right)
 gsap.utils.toArray('.bento-card').forEach((card, i) => {
